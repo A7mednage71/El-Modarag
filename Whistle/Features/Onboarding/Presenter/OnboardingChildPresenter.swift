@@ -7,6 +7,14 @@
 
 import Foundation
 
+
+protocol OnboardingChildPresenterProtocol : AnyObject {
+    func viewDidLoad()
+    func nextTapped()
+    func skipTapped()
+}
+
+
 class OnboardingChildPresenter : OnboardingChildPresenterProtocol{
     
     private weak var view : OnboardingChildViewProtocol?

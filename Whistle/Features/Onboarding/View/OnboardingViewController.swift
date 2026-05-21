@@ -14,6 +14,13 @@ struct OnboardingModel {
     let imageName: String
 }
 
+
+protocol OnboardingViewProtocol: AnyObject {
+    func updateCurrentPage(childVC: OnboardingChildViewController)
+    func navigateToMainScreen()
+}
+
+
 class OnboardingViewController: UIPageViewController , UIPageViewControllerDelegate , UIPageViewControllerDataSource , OnboardingViewProtocol {
     
     var presenter : OnboardingPresenterProtocol?

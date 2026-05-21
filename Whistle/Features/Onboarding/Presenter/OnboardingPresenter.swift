@@ -7,6 +7,13 @@
 
 import Foundation
 
+protocol OnboardingPresenterProtocol: AnyObject {
+    func viewDidLoad()
+    func getViewController(at index: Int) -> OnboardingChildViewController?
+    func getIndex(before index: Int) -> Int?
+    func getIndex(after index: Int) -> Int?
+}
+
 class OnboardingPresenter : OnboardingPresenterProtocol{
     
     private weak var view : OnboardingViewProtocol?

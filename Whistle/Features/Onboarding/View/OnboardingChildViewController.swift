@@ -7,6 +7,12 @@
 
 import UIKit
 
+
+protocol OnboardingChildViewProtocol : AnyObject {
+    func displayPageData(data:OnboardingModel, isLast: Bool)
+}
+
+
 class OnboardingChildViewController: UIViewController, OnboardingChildViewProtocol{
 
     @IBOutlet weak var backgroundImage: UIImageView!

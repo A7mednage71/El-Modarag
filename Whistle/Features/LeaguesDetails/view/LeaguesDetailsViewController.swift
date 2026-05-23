@@ -1,88 +1,193 @@
 //
-//  LeaguesDetailsViewController.swift
-//  Whistle
+//   LeaguesDetailsViewController.swift
+//   Whistle
 //
-//  Created by Ahmed Nageh on 22/05/2026.
+//   Created by Ahmed Nageh on 22/05/2026.
 //
 
 import UIKit
 
-private let reuseIdentifier = "Cell"
+enum Section: Int, CaseIterable {
+    case upcomingEvents = 0
+    case latestResults = 1
+    case teamsList = 2
+}
+
 
 class LeaguesDetailsViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
+        setupCollectionView()
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
+    
+    private func setupCollectionView() {
+        // Compositional Layout
+        collectionView.collectionViewLayout = createCompositionalLayout()
+        collectionView.backgroundColor = .black
+        collectionView.showsVerticalScrollIndicator = false
+        
+        let backgroundImageView = UIImageView()
+        backgroundImageView.image = UIImage(named: "screen_bg")
+        backgroundImageView.contentMode = .scaleAspectFill
+        collectionView.backgroundView = backgroundImageView
     }
-    */
+}
 
-    // MARK: UICollectionViewDataSource
+
+extension LeaguesDetailsViewController {
+    
+    private func createCompositionalLayout() -> UICollectionViewLayout {
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let sectionType = Section(rawValue: sectionIndex) else { return nil }
+            
+            switch sectionType {
+            case .upcomingEvents: return self.createUpcomingSection()
+            case .latestResults:  return self.createLatestResultsSection()
+            case .teamsList:      return self.createTeamsSection()
+            }
+        }
+    }
+    
+    private func createUpcomingSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(350), heightDimension: .absolute(220))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 24, trailing: 16)
+        section.interGroupSpacing = 16
+        section.orthogonalScrollingBehavior = .groupPagingCentered
+        
+        // Setup Header
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top
+        )
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        // Scale Animation Handler
+        section.visibleItemsInvalidationHandler = { (visibleItems, offset, layoutEnvironment) in
+            let groupWidth: CGFloat = 350.0
+            let containerWidth = layoutEnvironment.container.contentSize.width
+            let centerX = offset.x + (containerWidth / 2.0)
+            
+            visibleItems.forEach { item in
+                guard item.representedElementKind != UICollectionView.elementKindSectionHeader else { return }
+                
+                let distanceFromCenter = abs(item.center.x - centerX)
+                let minScale: CGFloat = 0.94
+                let maxScale: CGFloat = 1.0
+                
+                let ratio = min(distanceFromCenter / groupWidth, 1.0)
+                let scale = maxScale - (ratio * (maxScale - minScale))
+                
+                item.transform = CGAffineTransform(scaleX: scale, y: scale)
+                
+                let minAlpha: CGFloat = 0.85
+                let alpha = 1.0 - (ratio * (1.0 - minAlpha))
+                item.alpha = alpha
+            }
+        }
+        
+        return section
+    }
+    
+    private func createLatestResultsSection() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(140))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 12, leading: 16, bottom: 24, trailing: 16)
+        section.interGroupSpacing = 12
+        
+        // Setup Header
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize, elementKind: UICollectionView.elementKindSectionHeader, alignment: .top
+        )
+        section.boundarySupplementaryItems = [sectionHeader]
+        
+        return section
+    }
+    
+    private func createTeamsSection() -> NSCollectionLayoutSection {
+
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
+
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(widthDimension: .absolute(120), heightDimension: .absolute(130))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuous
+        section.interGroupSpacing = 15
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 20, trailing: 16)
+        
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+               layoutSize: headerSize,
+               elementKind: UICollectionView.elementKindSectionHeader,
+               alignment: .top
+           )
+        section.boundarySupplementaryItems = [sectionHeader]
+        return section
+
+       }
+
+}
+
+
+extension LeaguesDetailsViewController {
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return Section.allCases.count
     }
 
-
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 0
+        guard let sectionType = Section(rawValue: section) else { return 0 }
+        switch sectionType {
+        case .upcomingEvents: return 5
+        case .latestResults:  return 6
+        case .teamsList:      return 8
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        guard let sectionType = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
+            
+        switch sectionType {
+        case .upcomingEvents:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingEventCollectionViewCell", for: indexPath) as! UpcomingEventCollectionViewCell
+            return cell
+        case .latestResults:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LatestResultsCollectionViewCell", for: indexPath) as! LatestResultsCollectionViewCell
+            return cell
+        case .teamsList:
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
+            return cell
+        }
+    }
     
-        // Configure the cell
-    
-        return cell
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath)
+            
+            guard let sectionType = Section(rawValue: indexPath.section) else { return headerView }
+            
+            if let titleLabel = headerView.viewWithTag(100) as? UILabel {
+                switch sectionType {
+                case .upcomingEvents: titleLabel.text = "Upcoming Events"
+                case .latestResults:  titleLabel.text = "Latest Results"
+                case .teamsList:      titleLabel.text = "Participating Teams"
+                }
+            }
+            return headerView
+        }
+        return UICollectionReusableView()
     }
-
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
-
 }

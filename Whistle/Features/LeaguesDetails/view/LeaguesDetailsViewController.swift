@@ -14,11 +14,25 @@ enum Section: Int, CaseIterable {
 }
 
 
+protocol LeaguesDetailsViewProtocol: AnyObject {
+    func showLoading()
+    func hideLoading()
+    func refreshCollectionView()
+    func showError(message: String)
+}
+
+
 class LeaguesDetailsViewController: UICollectionViewController {
+    
+    var presenter : LeaguesDetailsPresenterProtocol?
+    let activityIndicator = UIActivityIndicatorView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter = LeaguesDetailsPresenter(view: self)
+        setupActivityIndicator()
         setupCollectionView()
+        presenter?.viewDidLoad()
     }
     
     private func setupCollectionView() {
@@ -32,6 +46,14 @@ class LeaguesDetailsViewController: UICollectionViewController {
         backgroundImageView.contentMode = .scaleAspectFill
         collectionView.backgroundView = backgroundImageView
     }
+    
+    private func setupActivityIndicator() {
+        activityIndicator.color = .white
+        activityIndicator.style = .large
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        activityIndicator.center = view.center
+    }
 }
 
 
@@ -40,6 +62,19 @@ extension LeaguesDetailsViewController {
     private func createCompositionalLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
             guard let sectionType = Section(rawValue: sectionIndex) else { return nil }
+            
+            // If the section is empty, revert to a section with zero dimensions
+            // so that the screen appears symmetrical and there are no gaps
+            
+            let itemsCount = self.presenter?.numberOfItems(in: sectionType) ?? 0
+            if itemsCount == 0 {
+                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(0),heightDimension:.absolute(0))
+                let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .zero
+                return section
+            }
             
             switch sectionType {
             case .upcomingEvents: return self.createUpcomingSection()
@@ -150,11 +185,7 @@ extension LeaguesDetailsViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let sectionType = Section(rawValue: section) else { return 0 }
-        switch sectionType {
-        case .upcomingEvents: return 5
-        case .latestResults:  return 6
-        case .teamsList:      return 8
-        }
+        return presenter?.numberOfItems(in: sectionType) ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -179,6 +210,12 @@ extension LeaguesDetailsViewController {
             
             guard let sectionType = Section(rawValue: indexPath.section) else { return headerView }
             
+            let itemsCount = presenter?.numberOfItems(in: sectionType) ?? 0
+            if itemsCount == 0 {
+                headerView.frame = .zero
+                return headerView
+            }
+            
             if let titleLabel = headerView.viewWithTag(100) as? UILabel {
                 switch sectionType {
                 case .upcomingEvents: titleLabel.text = "Upcoming Events"
@@ -189,5 +226,34 @@ extension LeaguesDetailsViewController {
             return headerView
         }
         return UICollectionReusableView()
+    }
+}
+
+
+extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
+    func showLoading() {
+        activityIndicator.startAnimating()
+    }
+    
+    func hideLoading() {
+        activityIndicator.stopAnimating()
+    }
+    
+    func refreshCollectionView() {
+        self.collectionView.reloadData()
+    }
+    
+    func showError(message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            WhistleAlertManager.showErrorAlert(
+                on: self, title: "Error Occur..!!",
+                message: message,
+                okayHandler: {},
+                retryHandler: {
+                    self.presenter?.viewDidLoad()
+                }
+            )
+        }
     }
 }

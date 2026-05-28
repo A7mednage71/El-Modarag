@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SportCollectionViewCell: UICollectionViewCell {
+class SportCategoryCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var sportImageView: UIImageView!
     @IBOutlet weak var sportNameLabel: UILabel!

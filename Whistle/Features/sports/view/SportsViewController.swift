@@ -7,95 +7,94 @@
 
 import UIKit
 
-class SportsViewController: UIViewController, SportsViewProtocol {
+struct Sport {
+    let title: String
+    let imageName: String
+}
 
-    @IBOutlet weak var collectionView: UICollectionView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var subtitleLabel: UILabel!
-    @IBOutlet weak var liveBannerView: UIView!
+class SportsViewController: UICollectionViewController {
     
-    var presenter: SportsPresenterProtocol!
+    var presenter : SportsPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupUI()
-        setupCollectionView()
-        
         presenter = SportsPresenter(view: self)
-        presenter.viewDidLoad()
+        setupCollectionView()
+        presenter?.viewDidLoad()
     }
-    
-    private func setupUI() {
-        view.backgroundColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1.0)
-        
-        if let banner = liveBannerView {
-            banner.layer.cornerRadius = 20
-            banner.backgroundColor = UIColor(red: 30/255, green: 40/255, blue: 30/255, alpha: 1.0)
-            banner.layer.borderWidth = 1
-            banner.layer.borderColor = UIColor.systemGreen.withAlphaComponent(0.3).cgColor
-        }
-    }
-    
+
     private func setupCollectionView() {
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.backgroundColor = .clear
-    }
-    
-    // MARK: - SportsViewProtocol Methods
-    
-    func showLoading() {
-        // يمكن إضافة UIActivityIndicatorView هنا
-        print("Loading Data...")
-    }
-    
-    func hideLoading() {
-        print("Data Loaded.")
-    }
-    
-    func reloadSportsData() {
-        collectionView.reloadData()
-    }
-    
-    func showError(message: String) {
-        let alert = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        collectionView.backgroundColor = .black
+        collectionView.showsVerticalScrollIndicator = false
+        
+        let backgroundImageView = UIImageView()
+        backgroundImageView.image = UIImage(named: "screen_bg")
+        backgroundImageView.contentMode = .scaleAspectFill
+        collectionView.backgroundView = backgroundImageView
+        
+        if let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            
+            layout.scrollDirection = .vertical
+            layout.minimumLineSpacing = 14 // vertical
+            layout.minimumInteritemSpacing = 14 // Horizontal
+            
+            // calc cell width
+            let padding: CGFloat = 16 * 3 // (Leading + Trailing + Space in-between)
+            let availableWidth = UIScreen.main.bounds.width - padding
+            let cellWidth = availableWidth / 2
+            
+            layout.itemSize = CGSize(width: cellWidth, height: 165)
+            layout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 24, right: 16)
+            
+            layout.headerReferenceSize = CGSize(width: UIScreen.main.bounds.width, height: 120)
+        }
     }
 }
 
-// MARK: - UICollectionViewDelegate & DataSource
-extension SportsViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension SportsViewController {
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.numberOfSports
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SportCell", for: indexPath) as! SportCollectionViewCell
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return presenter?.numberOfSports ?? 0
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SportCategoryCollectionViewCell", for: indexPath) as! SportCategoryCollectionViewCell
         
-        let sport = presenter.sport(at: indexPath.row)
-        cell.configure(with: sport)
+        let category = presenter?.sport(at: indexPath.item)
+        cell.sportImageView.image = UIImage(named: category!.imageName)
+        cell.sportNameLabel.text = category?.title
         
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        presenter.didSelectSport(at: indexPath.row)
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SportsHeaderReusableView", for: indexPath)
+            return header
+        }
+        return UICollectionReusableView()
+    }
+}
+
+
+extension SportsViewController :SportsViewProtocol {
+    func showLoading() {
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let padding: CGFloat = 16
-        let interItemSpacing: CGFloat = 16
-        
-        let availableWidth = collectionView.frame.width - (padding * 2) - interItemSpacing
-        let cellWidth = availableWidth / 2
-        
-        return CGSize(width: cellWidth, height: cellWidth + 10) 
+    func hideLoading() {
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+    func showError(message: String) {
+    }
+    
+    func reloadSportsData() {
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
 }

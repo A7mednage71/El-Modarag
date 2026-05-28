@@ -41,7 +41,7 @@ class OnboardingViewController: UIPageViewController , UIPageViewControllerDeleg
     
     func navigateToMainScreen() {
         
-        guard let mainScreen = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesDetails") else { return }
+        guard let mainScreen = self.storyboard?.instantiateViewController(withIdentifier: "TeamDetails") else { return }
             
         if let window = UIApplication.shared.connectedScenes.first
             .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {

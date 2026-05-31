@@ -22,7 +22,7 @@ class SportsViewController: UICollectionViewController {
         setupCollectionView()
         presenter?.viewDidLoad()
     }
-
+    
     private func setupCollectionView() {
         collectionView.backgroundColor = .black
         collectionView.showsVerticalScrollIndicator = false

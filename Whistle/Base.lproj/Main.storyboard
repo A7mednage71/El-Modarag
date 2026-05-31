@@ -604,14 +604,92 @@
                     </tabBar>
                     <connections>
                         <segue destination="tVG-Zt-F4W" kind="relationship" relationship="viewControllers" id="Rfn-VO-did"/>
-                        <segue destination="cRA-op-fmX" kind="relationship" relationship="viewControllers" id="qNO-Cf-X9e"/>
+                        <segue destination="ZRY-q2-FTf" kind="relationship" relationship="viewControllers" id="G3g-nY-Mjy"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fSb-f8-u32" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1944" y="1959"/>
         </scene>
-        <!--Favorites-->
+        <!--favorites-->
+        <scene sceneID="qTm-Rh-o9T">
+            <objects>
+                <tableViewController id="ZRY-q2-FTf" customClass="FavoritesTableViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="8FP-F2-srf">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FavoritesTableViewCell" rowHeight="120" id="dYn-IA-FrK" customClass="FavoritesTableViewCell" customModule="Whistle" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="50" width="393" height="120"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dYn-IA-FrK" id="iwr-R2-3AQ">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="120"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="67Y-6A-Dix" userLabel="Card Overlay View">
+                                            <rect key="frame" x="16" y="0.0" width="361" height="108"/>
+                                            <color key="backgroundColor" white="1" alpha="0.20000000000000001" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </view>
+                                        <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="x9Q-YG-1lJ">
+                                            <rect key="frame" x="28" y="8" width="337" height="92"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="football_staduim" translatesAutoresizingMaskIntoConstraints="NO" id="8p5-Vq-gwk">
+                                                    <rect key="frame" x="0.0" y="11" width="70" height="70"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="UB7-d9-gsb"/>
+                                                        <constraint firstAttribute="width" constant="70" id="gYs-UO-o5h"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label LabelLabelLabelLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orF-OB-qih">
+                                                    <rect key="frame" x="86" y="36" width="215" height="20.333333333333329"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="jGa-V1-t6w">
+                                                    <rect key="frame" x="317" y="38" width="20" height="16.666666666666664"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="I8c-89-dyA"/>
+                                                    </constraints>
+                                                </imageView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <constraints>
+                                        <constraint firstItem="67Y-6A-Dix" firstAttribute="bottom" secondItem="x9Q-YG-1lJ" secondAttribute="bottom" constant="8" id="6hZ-sK-qvv"/>
+                                        <constraint firstItem="x9Q-YG-1lJ" firstAttribute="top" secondItem="67Y-6A-Dix" secondAttribute="top" constant="8" id="9hI-HR-hIq"/>
+                                        <constraint firstItem="67Y-6A-Dix" firstAttribute="trailing" secondItem="x9Q-YG-1lJ" secondAttribute="trailing" constant="12" id="C3t-XX-4Ug"/>
+                                        <constraint firstAttribute="bottom" secondItem="67Y-6A-Dix" secondAttribute="bottom" constant="12" id="JKt-7Y-FFX"/>
+                                        <constraint firstItem="67Y-6A-Dix" firstAttribute="leading" secondItem="iwr-R2-3AQ" secondAttribute="leading" constant="16" id="Lez-Km-Zqz"/>
+                                        <constraint firstItem="67Y-6A-Dix" firstAttribute="top" secondItem="iwr-R2-3AQ" secondAttribute="top" id="oPf-V1-YiA"/>
+                                        <constraint firstItem="x9Q-YG-1lJ" firstAttribute="leading" secondItem="67Y-6A-Dix" secondAttribute="leading" constant="12" id="pIy-u5-G5N"/>
+                                        <constraint firstAttribute="trailing" secondItem="67Y-6A-Dix" secondAttribute="trailing" constant="16" id="wDO-xx-dBu"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="arrowIconButton" destination="jGa-V1-t6w" id="J1p-7e-UEX"/>
+                                    <outlet property="cardOverlayView" destination="67Y-6A-Dix" id="XGs-fD-Ykc"/>
+                                    <outlet property="leagueImageView" destination="8p5-Vq-gwk" id="CK9-xN-flv"/>
+                                    <outlet property="leagueNameLabel" destination="orF-OB-qih" id="Di5-U4-5Nj"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ZRY-q2-FTf" id="SjU-5s-3gE"/>
+                            <outlet property="delegate" destination="ZRY-q2-FTf" id="n6v-U3-TqJ"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="favorites" image="star" catalog="system" id="RJ3-Cp-GeU">
+                        <color key="badgeColor" name="LimeNeon"/>
+                    </tabBarItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uPV-Fs-nQU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2997.709923664122" y="2380.2816901408451"/>
+        </scene>
+        <!--Leagues Table View Controller-->
         <scene sceneID="gwr-Vy-ZlB">
             <objects>
                 <viewController id="cRA-op-fmX" customClass="LeaguesTableViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
@@ -626,7 +704,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="acH-Ug-Osn">
-                                <rect key="frame" x="16" y="173.33333333333331" width="361" height="681.66666666666674"/>
+                                <rect key="frame" x="16" y="173.33333333333331" width="361" height="730.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -702,14 +780,13 @@
                             <constraint firstItem="acH-Ug-Osn" firstAttribute="bottom" secondItem="Aas-rg-r7s" secondAttribute="bottom" constant="120" id="yZB-vI-hwC"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="star" catalog="system" id="3lX-np-pEo"/>
                     <connections>
                         <outlet property="leaguesTable" destination="acH-Ug-Osn" id="h6J-gC-aqC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="88O-fI-oEH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2997.709923664122" y="2302.816901408451"/>
+            <point key="canvasLocation" x="4091" y="1646"/>
         </scene>
         <!--Sports-->
         <scene sceneID="Pb9-L1-exZ">

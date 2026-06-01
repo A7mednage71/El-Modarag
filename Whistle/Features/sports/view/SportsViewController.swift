@@ -7,11 +7,6 @@
 
 import UIKit
 
-struct Sport {
-    let title: String
-    let imageName: String
-}
-
 class SportsViewController: UICollectionViewController {
     
     var presenter : SportsPresenterProtocol?
@@ -19,8 +14,14 @@ class SportsViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = SportsPresenter(view: self)
+        setUpBackButton()
         setupCollectionView()
         presenter?.viewDidLoad()
+    }
+    
+    private func setUpBackButton() {
+        navigationItem.backButtonTitle = ""
+        self.navigationController?.navigationBar.tintColor = .white
     }
     
     private func setupCollectionView() {
@@ -71,6 +72,10 @@ extension SportsViewController {
         
         return cell
     }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter?.didSelectSport(at: indexPath.item)
+    }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
@@ -83,6 +88,17 @@ extension SportsViewController {
 
 
 extension SportsViewController :SportsViewProtocol {
+    
+    func navigateToLeaguesScreen(with sport: Sport) {
+        
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesTableViewController") as? LeaguesTableViewController else { return }
+            
+        let leaguesPresenter = LeaguesPresenter(view: leaguesVC, selectedSport: sport)
+            
+        leaguesVC.presenter = leaguesPresenter
+        self.navigationController?.pushViewController(leaguesVC, animated: true)
+    }
+    
     func showLoading() {
     }
     

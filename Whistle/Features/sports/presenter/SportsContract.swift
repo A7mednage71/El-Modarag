@@ -11,6 +11,7 @@ protocol SportsViewProtocol: AnyObject {
     func showLoading()
     func hideLoading()
     func reloadSportsData()
+    func navigateToLeaguesScreen(with sport: Sport)
     func showError(message: String)
 }
 

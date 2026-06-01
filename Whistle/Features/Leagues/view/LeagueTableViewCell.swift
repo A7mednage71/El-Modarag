@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class LeagueTableViewCell: UITableViewCell {
     
@@ -25,6 +26,7 @@ class LeagueTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // The system calls it whenever there is a change in sizes
     override func layoutSubviews() {
         super.layoutSubviews()
         leagueImageView.layer.cornerRadius = leagueImageView.frame.height / 2
@@ -48,5 +50,20 @@ class LeagueTableViewCell: UITableViewCell {
             
         arrowIconButton.tintColor = .lightGray
         favIconButton.tintColor = .systemRed
+    }
+    
+    func configure(with league: League) {
+        leagueNameLabel.text = league.leagueName
+            
+        if let url = URL(string: league.leagueLogo ?? ""), url.scheme != nil {
+            leagueImageView.sd_setImage(
+                    with: url,
+                    placeholderImage: UIImage(named: "loading_img"),
+                    options: [.continueInBackground, .lowPriority]
+                )
+                
+        }else {
+            leagueImageView.image = UIImage(named: "failure_img")
+        }
     }
 }

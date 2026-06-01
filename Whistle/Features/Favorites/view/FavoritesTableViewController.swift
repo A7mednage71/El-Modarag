@@ -19,29 +19,57 @@ class FavoritesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-   
-        setupFullScreenBackground()
+        
+        self.edgesForExtendedLayout = .all
+        
+        setupNavigationBarBackground()
         setupTableView()
+        setupFullScreenBackground()
         
         presenter = FavoritesPresenter(view: self)
         presenter.viewDidLoad()
         
         self.title = "Favorites"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     private func setupFullScreenBackground() {
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "screen_bg")
         backgroundImageView.contentMode = .scaleAspectFill
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.clipsToBounds = true
+        // No constraints needed – backgroundView is automatically sized to the table view's bounds
         tableView.backgroundView = backgroundImageView
     }
     
     private func setupTableView() {
+        view.backgroundColor = .clear
         tableView.backgroundColor = .clear
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
+    }
+    
+    private func setupNavigationBarBackground() {
+        guard let image = UIImage(named: "screen_bg") else { return }
+
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithTransparentBackground()
+
+        appearance.backgroundImage = image
+        appearance.shadowColor = .clear
+        
+        appearance.titleTextAttributes = [
+            .foregroundColor: UIColor.white,
+            .font: UIFont.boldSystemFont(ofSize: 24)
+        ]
+
+        appearance.largeTitleTextAttributes = [
+            .foregroundColor: UIColor.white
+        ]
+        navigationController?.navigationBar.tintColor = .white
+
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
     }
 }
 

@@ -9,10 +9,10 @@ import Foundation
 
 
 struct LeagueResponse: Codable {
-    let result: [League]
+    let result: [LeagueDtO]
 }
 
-struct League: Codable {
+struct LeagueDtO: Codable {
     let leagueKey: Int?
     let leagueName: String?
     let countryKey: Int?
@@ -29,4 +29,21 @@ struct League: Codable {
         case leagueLogo = "league_logo"
         case countryLogo = "country_logo"
     }
+    
+    func toLeague() -> League {
+        return League(
+            leagueKey: leagueKey,
+            leagueName: leagueName,
+            leagueLogo: leagueLogo,
+            countryName: countryName
+        )
+    }
+}
+
+
+struct League : Codable{
+    let leagueKey: Int?
+    let leagueName: String?
+    let leagueLogo: String?
+    let countryName: String?
 }

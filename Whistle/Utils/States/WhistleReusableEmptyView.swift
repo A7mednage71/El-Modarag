@@ -8,7 +8,7 @@ import UIKit
 
 class WhistleReusableEmptyView: UIView {
     
-    init(frame: CGRect, message: String, imageName: String) {
+    init(frame: CGRect,title: String, message: String, imageName: String) {
         super.init(frame: frame)
         
         self.backgroundColor = .clear
@@ -18,15 +18,24 @@ class WhistleReusableEmptyView: UIView {
         icon.contentMode = .scaleAspectFit
         icon.translatesAutoresizingMaskIntoConstraints = false
         
-        let label = UILabel()
-        label.text = message
-        label.textColor = .white.withAlphaComponent(0.9)
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 15, weight: .semibold)
-        label.numberOfLines = 0
-        label.translatesAutoresizingMaskIntoConstraints = false
+        let titleLabel = UILabel()
+        titleLabel.text = title
+        titleLabel.textColor = .white.withAlphaComponent(0.9)
+        titleLabel.textAlignment = .center
+        titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        titleLabel.numberOfLines = 0
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        let stack = UIStackView(arrangedSubviews: [icon, label])
+        let messageLabel = UILabel()
+        messageLabel.text = message
+        messageLabel.textColor = .white.withAlphaComponent(0.9)
+        messageLabel.textAlignment = .center
+        messageLabel.font = .systemFont(ofSize: 15, weight: .semibold)
+        messageLabel.numberOfLines = 0
+        messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        let stack = UIStackView(arrangedSubviews: [icon,titleLabel, messageLabel])
         stack.axis = .vertical
         stack.spacing = 20
         stack.alignment = .center

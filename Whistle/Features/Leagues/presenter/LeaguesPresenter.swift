@@ -42,7 +42,7 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
             
             switch result{
               case .success(let response):
-                self?.leaguesList = response.result
+                self?.leaguesList = response.result.map{$0.toLeague()}
                 self?.view?.reloadLeaguesData()
               case .failure(let error) :
                 self?.view?.showError(message: error.localizedDescription)

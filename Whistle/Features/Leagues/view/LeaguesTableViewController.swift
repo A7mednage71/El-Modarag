@@ -114,7 +114,19 @@ extension LeaguesTableViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "LeagueTableViewCell", for: indexPath) as! LeagueTableViewCell
         
         if let leagueItem = presenter?.league(at: indexPath.section) {
-            cell.configure(with: leagueItem)
+            cell.onFavButtonTapped = { [weak self] in
+                guard let _ = self else { return }
+                
+                if LocalServices.isFavorite(leagueKey: leagueItem.leagueKey) {
+                    LocalServices.deleteFavorite(leagueKey: leagueItem.leagueKey ?? 0)
+                } else {
+                    LocalServices.saveFavorite(league: leagueItem)
+                }
+                tableView.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
+            }
+                    
+            let isFavorite = LocalServices.isFavorite(leagueKey: leagueItem.leagueKey)
+            cell.configure(with: leagueItem , isFavorite: isFavorite)
         }
         return cell
     }

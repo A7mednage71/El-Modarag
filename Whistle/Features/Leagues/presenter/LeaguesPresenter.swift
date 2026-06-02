@@ -7,12 +7,6 @@
 
 import Foundation
 
-struct League {
-    let name: String
-    let logoName: String
-    let country: String
-}
-
 protocol LeaguesPresenterProtocol: AnyObject {
     var numberOfLeagues: Int { get }
     func viewDidLoad()
@@ -23,10 +17,12 @@ protocol LeaguesPresenterProtocol: AnyObject {
 class LeaguesPresenter: LeaguesPresenterProtocol {
     
     weak var view: LeaguesViewProtocol?
+    private let selectedSport: Sport
     private var leaguesList: [League] = []
     
-    init(view: LeaguesViewProtocol) {
+    init(view: LeaguesViewProtocol, selectedSport: Sport) {
         self.view = view
+        self.selectedSport = selectedSport
     }
     
     var numberOfLeagues: Int {
@@ -40,20 +36,17 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     private func fetchLeagues() {
         view?.showLoading()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            guard let self = self else { return }
+        NetworkServices.getLeagueData(sport: selectedSport){ [weak self] result in
             
-            self.leaguesList = [
-                League(name: "Premier League", logoName: "premier_league", country: "England"),
-                League(name: "NBA", logoName: "nba_img", country: "USA"),
-                League(name: "La Liga", logoName: "la_liga", country: "Spain"),
-                League(name: "Bundesliga", logoName: "bundesliga", country: "Germany"),
-                League(name: "Serie A", logoName: "serie_a", country: "Italy"),
-                League(name: "Ligue 1", logoName: "ligue_1", country: "France")
-            ]
+            self?.view?.hideLoading()
             
-            self.view?.hideLoading()
-            self.view?.reloadLeaguesData()
+            switch result{
+              case .success(let response):
+                self?.leaguesList = response.result.map{$0.toLeague()}
+                self?.view?.reloadLeaguesData()
+              case .failure(let error) :
+                self?.view?.showError(message: error.localizedDescription)
+            }
         }
     }
     
@@ -63,6 +56,6 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     
     func didSelectLeague(at index: Int) {
         let selected = leaguesList[index]
-        print("User clicked on league: \(selected.name)")
+        print("User clicked on league: \(selected.leagueName)")
     }
 }

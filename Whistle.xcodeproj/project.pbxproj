@@ -6,6 +6,12 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2C74114C2FCC8885007E1B60 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74114B2FCC8885007E1B60 /* SDWebImage */; };
+		2C74114E2FCC8885007E1B60 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 2C74114D2FCC8885007E1B60 /* SDWebImageMapKit */; };
+		2C7411512FCC889C007E1B60 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2C7411502FCC889C007E1B60 /* Alamofire */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		2C17BF162FBBE10200AE5138 /* Whistle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Whistle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +42,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C7411512FCC889C007E1B60 /* Alamofire in Frameworks */,
+				2C74114E2FCC8885007E1B60 /* SDWebImageMapKit in Frameworks */,
+				2C74114C2FCC8885007E1B60 /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +87,9 @@
 			);
 			name = Whistle;
 			packageProductDependencies = (
+				2C74114B2FCC8885007E1B60 /* SDWebImage */,
+				2C74114D2FCC8885007E1B60 /* SDWebImageMapKit */,
+				2C7411502FCC889C007E1B60 /* Alamofire */,
 			);
 			productName = "El-Modarag";
 			productReference = 2C17BF162FBBE10200AE5138 /* Whistle.app */;
@@ -107,6 +119,10 @@
 			);
 			mainGroup = 2C17BF0D2FBBE10200AE5138;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2C74114A2FCC8885007E1B60 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				2C74114F2FCC889C007E1B60 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2C17BF172FBBE10200AE5138 /* Products */;
 			projectDirPath = "";
@@ -341,6 +357,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C74114A2FCC8885007E1B60 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.21.7;
+			};
+		};
+		2C74114F2FCC889C007E1B60 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C74114B2FCC8885007E1B60 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C74114A2FCC8885007E1B60 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		2C74114D2FCC8885007E1B60 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C74114A2FCC8885007E1B60 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+		2C7411502FCC889C007E1B60 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C74114F2FCC889C007E1B60 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2C17BF0E2FBBE10200AE5138 /* Project object */;
 }

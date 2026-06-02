@@ -29,12 +29,7 @@ class SportsPresenter: SportsPresenterProtocol {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
             guard let self = self else { return }
-            self.sportsList = [
-                Sport(title: "Football", imageName: "foot_ball"),
-                Sport(title: "Basketball", imageName: "Basket_ball"),
-                Sport(title: "Tennis", imageName: "Tennis"),
-                Sport(title: "Cricket", imageName: "Cricket")
-            ]
+            self.sportsList = Sport.allCases
             self.view?.hideLoading()
             self.view?.reloadSportsData()
         }
@@ -47,5 +42,6 @@ class SportsPresenter: SportsPresenterProtocol {
     func didSelectSport(at index: Int) {
         let selectedSport = sportsList[index]
         print("User selected: \(selectedSport.title)")
+        view?.navigateToLeaguesScreen(with: selectedSport)
     }
 }

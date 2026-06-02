@@ -31,4 +31,34 @@ class WhistleAlertManager {
         
         viewController.present(alert, animated: true, completion: nil)
     }
+    
+    static func showConfirmationAlert(
+            on viewController: UIViewController,
+            title: String?,
+            message: String,
+            okayTitle: String = "OK",
+            cancelTitle: String = "Cancel",
+            okayHandler: @escaping () -> Void,
+            cancelHandler: (() -> Void)? = nil
+        ) {
+            
+            let alert = UIAlertController(
+                title: title ?? "Whistle",
+                message: message,
+                preferredStyle: .alert
+            )
+            
+            let okayAction = UIAlertAction(title: okayTitle, style: .default) { _ in
+                okayHandler()
+            }
+            
+            let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
+                cancelHandler?()
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(okayAction)
+            
+            viewController.present(alert, animated: true, completion: nil)
+        }
 }

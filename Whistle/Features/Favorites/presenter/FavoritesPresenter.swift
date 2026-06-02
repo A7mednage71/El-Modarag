@@ -22,8 +22,7 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     private var favoritesList: [League] = []
     
     var numberOfFavorites: Int {
-        return 20
-       // return favoritesList.count
+        return favoritesList.count
     }
     
     init(view: FavoritesViewProtocol) {
@@ -31,16 +30,16 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     }
     
     func viewDidLoad() {
-        loadMockFavorites()
+        loadFavoritesLeagues()
     }
     
-    private func loadMockFavorites() {
+    private func loadFavoritesLeagues() {
         view?.showLoading()
-            
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
-            self?.view?.hideLoading()
-            self?.view?.reloadFavoritesData()
-        }
+        
+        favoritesList = LocalServices.fetchAllFavorites()
+        
+        self.view?.hideLoading()
+        self.view?.reloadFavoritesData()
     }
     
     func favoriteItem(at index: Int) -> League {
@@ -48,7 +47,9 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     }
     
     func didRemoveFavorite(at index: Int) {
-        
+        let targetLeague = favoritesList[index]
+        LocalServices.deleteFavorite(leagueKey: targetLeague.leagueKey ?? 0)
+        favoritesList.remove(at: index)
     }
     
     func didSelectFavorite(at index: Int) {

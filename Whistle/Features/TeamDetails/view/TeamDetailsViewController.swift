@@ -98,10 +98,11 @@ class TeamDetailsViewController: UICollectionViewController {
                     cell.contentView.layer.borderColor = UIColor.clear.cgColor
                     cell.contentView.layer.borderWidth = 0
                     let emptyState = WhistleReusableEmptyView(
-                            frame: cell.contentView.bounds,
-                            message: "No players available in this team squad.",
-                            imageName: "empty_state"
-                        )
+                        frame: cell.contentView.bounds,
+                        title: "Squad Not Available",
+                        message: "The roster for this team hasn't been announced yet. Stay tuned for the upcoming player lineup updates!",
+                        imageName: "empty_state"
+                    )
                     emptyState.tag = 999
                     emptyState.autoresizingMask = [.flexibleWidth, .flexibleHeight]
                     cell.contentView.addSubview(emptyState)

@@ -12,8 +12,9 @@ class FavoritesTableViewCell: UITableViewCell {
     @IBOutlet weak var cardOverlayView: UIView!
     @IBOutlet weak var leagueImageView: UIImageView!
     @IBOutlet weak var leagueNameLabel: UILabel!
-    @IBOutlet weak var arrowIconButton: UIImageView!
-    
+    @IBOutlet weak var leagueCountryName: UILabel!
+    @IBOutlet weak var arrowIconButton: UIButton!
+        
     override func awakeFromNib() {
         super.awakeFromNib()
         setupCellUI()
@@ -39,8 +40,24 @@ class FavoritesTableViewCell: UITableViewCell {
         leagueImageView.contentMode = .scaleAspectFill
             
         leagueNameLabel.textColor = .white
+        leagueCountryName.textColor = .white
         leagueNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
             
         arrowIconButton.tintColor = .lightGray
+    }
+    
+    func configure(with league: League) {
+        leagueNameLabel.text = league.leagueName
+        leagueCountryName.text = league.countryName != nil ? "📍 \(league.countryName!)" :  "🏆 Global"
+            
+        if let logoString = league.leagueLogo, let url = URL(string: logoString), url.scheme != nil {
+            leagueImageView.sd_setImage(
+                with: url,
+                placeholderImage: UIImage(named: "loading_img"),
+                options: [.continueInBackground, .lowPriority]
+            )
+        } else {
+            leagueImageView.image = UIImage(named: "failure_img")
+        }
     }
 }

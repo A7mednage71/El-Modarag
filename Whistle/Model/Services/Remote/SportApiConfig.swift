@@ -33,6 +33,42 @@ struct SportApiConfig : URLRequestConvertible{
         )
     }
     
+    static func LeagueFixtures(request:LeagueFixturesRequest) -> SportApiConfig {
+        return SportApiConfig(
+            path: request.sport.pathValue,
+            parameters: [
+                "met": "Fixtures",
+                "from": request.fromDate,
+                "to": request.toDate,
+                "leagueId": request.leagueIdString,
+                "timezone": request.timeZone
+            ],
+            method: .get
+        )
+    }
+    
+    static func LeagueTeams(leagueId: Int, sport: Sport) -> SportApiConfig {
+        return SportApiConfig(
+            path: sport.pathValue,
+            parameters: [
+                "met": "Teams",
+                "leagueId": String(leagueId)
+            ],
+            method: .get
+        )
+    }
+        
+    static func players(teamId: Int, sport: Sport) -> SportApiConfig {
+        return SportApiConfig(
+            path: sport.pathValue,
+            parameters: [
+                "met": "Players",
+                "teamId": String(teamId)
+            ],
+            method: .get
+        )
+    }
+    
     func asURLRequest() throws -> URLRequest {
         
         var urlRequest = URLRequest(url: baseURL)

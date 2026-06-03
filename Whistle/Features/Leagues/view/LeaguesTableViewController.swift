@@ -9,6 +9,7 @@ import UIKit
 
 protocol LeaguesViewProtocol: AnyObject {
     func reloadLeaguesData()
+    func navigateToLeaguesScreen(sport: Sport,leagueName: String,leagueId : Int?)
     func showLoading()
     func showError(message: String)
     func hideLoading()
@@ -24,6 +25,7 @@ class LeaguesTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBackButton()
         setupFullScreenBackground()
         setupTableView()
         setupActivityIndicator()
@@ -63,9 +65,32 @@ class LeaguesTableViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.center = view.center
     }
+    
+    
+    private func setUpBackButton() {
+        navigationItem.backButtonTitle = ""
+        self.title = presenter.getSelectedSport.title
+        self.navigationController?.navigationBar.tintColor = .white
+    }
 }
 
 extension LeaguesTableViewController: LeaguesViewProtocol {
+    
+    func navigateToLeaguesScreen(sport: Sport, leagueName: String , leagueId: Int?) {
+        guard let validLeagueId = leagueId else {
+            showError(message: "Match data is temporarily unavailable. Please try selecting the league again.")
+            return
+        }
+        
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
+            return
+        }
+        leaguesVC.title = leagueName
+        
+        let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sport, leagueId: validLeagueId)
+        leaguesVC.presenter = leaguesPresenter
+        self.navigationController?.pushViewController(leaguesVC, animated: true)
+    }
     
     func showError(message: String) {
         DispatchQueue.main.async { [weak self] in

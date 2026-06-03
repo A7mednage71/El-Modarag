@@ -8,7 +8,8 @@
 import Foundation
 
 protocol LeaguesPresenterProtocol: AnyObject {
-    var numberOfLeagues: Int { get }
+    var  numberOfLeagues: Int { get }
+    var  getSelectedSport : Sport {get}
     func viewDidLoad()
     func league(at index: Int) -> League
     func didSelectLeague(at index: Int)
@@ -28,6 +29,11 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     var numberOfLeagues: Int {
         return leaguesList.count
     }
+    
+    var getSelectedSport: Sport{
+        return selectedSport
+    }
+
     
     func viewDidLoad() {
         fetchLeagues()
@@ -56,6 +62,6 @@ class LeaguesPresenter: LeaguesPresenterProtocol {
     
     func didSelectLeague(at index: Int) {
         let selected = leaguesList[index]
-        print("User clicked on league: \(selected.leagueName)")
+        view?.navigateToLeaguesScreen(sport: selectedSport,leagueName:selected.leagueName ?? "" , leagueId: selected.leagueKey)
     }
 }

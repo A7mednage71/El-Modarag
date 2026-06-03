@@ -29,11 +29,11 @@ class LeaguesDetailsViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = LeaguesDetailsPresenter(view: self)
         setupActivityIndicator()
         setupCollectionView()
         presenter?.viewDidLoad()
     }
+
     
     private func setupCollectionView() {
         // Compositional Layout
@@ -194,12 +194,21 @@ extension LeaguesDetailsViewController {
         switch sectionType {
         case .upcomingEvents:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingEventCollectionViewCell", for: indexPath) as! UpcomingEventCollectionViewCell
+            if let fixture = presenter?.upcomingMatch(at: indexPath.item) {
+                   cell.configure(with: fixture)
+            }
             return cell
         case .latestResults:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LatestResultsCollectionViewCell", for: indexPath) as! LatestResultsCollectionViewCell
+            if let fixture = presenter?.latestResult(at: indexPath.item) {
+                   cell.configure(with: fixture)
+            }
             return cell
         case .teamsList:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
+            if let team = presenter?.team(at: indexPath.item){
+                cell.configure(with: team)
+            }
             return cell
         }
     }

@@ -68,7 +68,6 @@ class LeaguesTableViewController: UIViewController {
     
     
     private func setUpBackButton() {
-        navigationItem.backButtonTitle = ""
         self.title = presenter.getSelectedSport.title
         self.navigationController?.navigationBar.tintColor = .white
     }
@@ -85,6 +84,7 @@ extension LeaguesTableViewController: LeaguesViewProtocol {
         guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
             return
         }
+        self.navigationItem.backButtonTitle = ""
         leaguesVC.title = leagueName
         
         let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sport, leagueId: validLeagueId)
@@ -141,11 +141,12 @@ extension LeaguesTableViewController: UITableViewDelegate, UITableViewDataSource
         if let leagueItem = presenter?.league(at: indexPath.section) {
             cell.onFavButtonTapped = { [weak self] in
                 guard let _ = self else { return }
+                guard let sportType = self?.presenter.getSelectedSport else { return  }
                 
                 if LocalServices.isFavorite(leagueKey: leagueItem.leagueKey) {
                     LocalServices.deleteFavorite(leagueKey: leagueItem.leagueKey ?? 0)
                 } else {
-                    LocalServices.saveFavorite(league: leagueItem)
+                    LocalServices.saveFavorite(league: leagueItem , sportType: sportType)
                 }
                 tableView.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
             }

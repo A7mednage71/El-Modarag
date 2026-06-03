@@ -18,13 +18,14 @@ class CoreDataManager {
         return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     }
     
-    func saveFavoriteLeague(league:League) {
+    func saveFavoriteLeague(league:League , sportType: Sport) {
         
         let entity = LeagueEntity(context: context)
         entity.leagueKey = Int64(league.leagueKey ?? 0)
         entity.leagueName = league.leagueName
         entity.leagueLogo = league.leagueLogo
         entity.countryName = league.countryName
+        entity.sportType = sportType.rawValue
         
         do{
             try context.save()
@@ -35,19 +36,20 @@ class CoreDataManager {
         
     }
     
-    func fetchAllFavorites() -> [League] {
+    func fetchAllFavorites() -> [FavoriteLeague] {
         let fetchRequest = LeagueEntity.fetchRequest()
         
         do{
             let entites = try context.fetch(fetchRequest)
             
-            let leagues: [League] = entites.map{ entity in
-                return League(
+            let leagues: [FavoriteLeague] = entites.map{ entity in
+                return FavoriteLeague(
                     leagueKey: Int(entity.leagueKey),
                     leagueName: entity.leagueName,
                     leagueLogo: entity.leagueLogo,
-                    countryName: entity.countryName)
-                
+                    countryName: entity.countryName,
+                    sportType: entity.sportType ?? ""
+                )
             }
             
             return leagues

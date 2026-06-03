@@ -258,7 +258,9 @@ extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
             WhistleAlertManager.showErrorAlert(
                 on: self, title: "Error Occur..!!",
                 message: message,
-                okayHandler: {},
+                okayHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                },
                 retryHandler: {
                     self.presenter?.viewDidLoad()
                 }

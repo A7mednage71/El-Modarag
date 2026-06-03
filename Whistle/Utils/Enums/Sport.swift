@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum Sport: CaseIterable {
-    case football
-    case basketball
-    case cricket
-    case tennis
+enum Sport: String, CaseIterable {
+    case football   = "football"
+    case basketball = "basketball"
+    case cricket    = "cricket"
+    case tennis     = "tennis"
     
     var title: String {
         switch self {

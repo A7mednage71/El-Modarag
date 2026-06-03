@@ -46,7 +46,7 @@ class FavoritesTableViewCell: UITableViewCell {
         arrowIconButton.tintColor = .lightGray
     }
     
-    func configure(with league: League) {
+    func configure(with league: FavoriteLeague) {
         leagueNameLabel.text = league.leagueName
         leagueCountryName.text = league.countryName != nil ? "📍 \(league.countryName!)" :  "🏆 Global"
             

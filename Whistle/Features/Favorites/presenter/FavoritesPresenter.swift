@@ -11,7 +11,7 @@ import Foundation
 protocol FavoritesPresenterProtocol: AnyObject {
     var numberOfFavorites: Int { get }
     func viewDidLoad()
-    func favoriteItem(at index: Int) -> League
+    func favoriteItem(at index: Int) -> FavoriteLeague
     func didSelectFavorite(at index: Int)
     func didRemoveFavorite(at index: Int)
 }
@@ -19,7 +19,7 @@ protocol FavoritesPresenterProtocol: AnyObject {
 class FavoritesPresenter: FavoritesPresenterProtocol {
 
     private weak var view: FavoritesViewProtocol?
-    private var favoritesList: [League] = []
+    private var favoritesList: [FavoriteLeague] = []
     
     var numberOfFavorites: Int {
         return favoritesList.count
@@ -42,7 +42,7 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
         self.view?.reloadFavoritesData()
     }
     
-    func favoriteItem(at index: Int) -> League {
+    func favoriteItem(at index: Int) -> FavoriteLeague {
         return favoritesList[index]
     }
     
@@ -53,5 +53,8 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     }
     
     func didSelectFavorite(at index: Int) {
+        let league = favoritesList[index]
+        let sportType = Sport(rawValue: league.sportType)
+        self.view?.navigateToLeagueDetailsScreen(sport: sportType, leagueName: league.leagueName ?? "", leagueId: league.leagueKey)
     }
 }

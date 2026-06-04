@@ -11,6 +11,8 @@ protocol FavoritesViewProtocol: AnyObject {
     func reloadFavoritesData()
     func showLoading()
     func hideLoading()
+    func navigateToLeagueDetailsScreen(sport: Sport?, leagueName: String , leagueId: Int?)
+    func showError(message: String)
 }
 
 class FavoritesTableViewController: UITableViewController {
@@ -28,7 +30,6 @@ class FavoritesTableViewController: UITableViewController {
         setupTableView()
         setupFullScreenBackground()
         setupActivityIndicator()
-        
         presenter = FavoritesPresenter(view: self)
         self.title = "Favorites"
     }
@@ -60,9 +61,11 @@ class FavoritesTableViewController: UITableViewController {
         view.addSubview(activityIndicator)
         activityIndicator.center = view.center
     }
+
     
     private func setupNavigationBarBackground() {
         guard let image = UIImage(named: "screen_bg") else { return }
+        navigationItem.backButtonTitle = ""
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithTransparentBackground()
@@ -206,6 +209,41 @@ extension FavoritesTableViewController: FavoritesViewProtocol {
             } else {
                 self.removeEmptyStateIfNeeded()
             }
+        }
+    }
+    
+    
+    func navigateToLeagueDetailsScreen(sport: Sport?, leagueName: String , leagueId: Int?) {
+        guard let validLeagueId = leagueId , let sportType = sport else {
+            showError(message: "Match data is temporarily unavailable. Please try selecting the league again.")
+            return
+        }
+        
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
+            return
+        }
+        
+        leaguesVC.title = leagueName
+        
+        let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sportType, leagueId: validLeagueId)
+        leaguesVC.presenter = leaguesPresenter
+        self.navigationController?.pushViewController(leaguesVC, animated: true)
+    }
+    
+    
+    func showError(message: String) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            WhistleAlertManager.showErrorAlert(
+                on: self, title:  message,
+                message: message,
+                okayHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                },
+                retryHandler: {
+                    self.presenter?.viewDidLoad()
+                }
+            )
         }
     }
     

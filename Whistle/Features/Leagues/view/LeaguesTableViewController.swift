@@ -9,6 +9,7 @@ import UIKit
 
 protocol LeaguesViewProtocol: AnyObject {
     func reloadLeaguesData()
+    func navigateToLeaguesScreen(sport: Sport,leagueName: String,leagueId : Int?)
     func showLoading()
     func showError(message: String)
     func hideLoading()
@@ -24,6 +25,7 @@ class LeaguesTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBackButton()
         setupFullScreenBackground()
         setupTableView()
         setupActivityIndicator()
@@ -63,9 +65,32 @@ class LeaguesTableViewController: UIViewController {
         view.addSubview(activityIndicator)
         activityIndicator.center = view.center
     }
+    
+    
+    private func setUpBackButton() {
+        self.title = presenter.getSelectedSport.title
+        self.navigationController?.navigationBar.tintColor = .white
+    }
 }
 
 extension LeaguesTableViewController: LeaguesViewProtocol {
+    
+    func navigateToLeaguesScreen(sport: Sport, leagueName: String , leagueId: Int?) {
+        guard let validLeagueId = leagueId else {
+            showError(message: "Match data is temporarily unavailable. Please try selecting the league again.")
+            return
+        }
+        
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
+            return
+        }
+        self.navigationItem.backButtonTitle = ""
+        leaguesVC.title = leagueName
+        
+        let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sport, leagueId: validLeagueId)
+        leaguesVC.presenter = leaguesPresenter
+        self.navigationController?.pushViewController(leaguesVC, animated: true)
+    }
     
     func showError(message: String) {
         DispatchQueue.main.async { [weak self] in
@@ -116,11 +141,12 @@ extension LeaguesTableViewController: UITableViewDelegate, UITableViewDataSource
         if let leagueItem = presenter?.league(at: indexPath.section) {
             cell.onFavButtonTapped = { [weak self] in
                 guard let _ = self else { return }
+                guard let sportType = self?.presenter.getSelectedSport else { return  }
                 
                 if LocalServices.isFavorite(leagueKey: leagueItem.leagueKey) {
                     LocalServices.deleteFavorite(leagueKey: leagueItem.leagueKey ?? 0)
                 } else {
-                    LocalServices.saveFavorite(league: leagueItem)
+                    LocalServices.saveFavorite(league: leagueItem , sportType: sportType)
                 }
                 tableView.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
             }

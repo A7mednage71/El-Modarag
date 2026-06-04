@@ -47,3 +47,12 @@ struct League : Codable{
     let leagueLogo: String?
     let countryName: String?
 }
+
+
+struct FavoriteLeague : Codable{
+    let leagueKey: Int?
+    let leagueName: String?
+    let leagueLogo: String?
+    let countryName: String?
+    let sportType: String
+}

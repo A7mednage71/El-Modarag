@@ -18,6 +18,7 @@ protocol LeaguesDetailsViewProtocol: AnyObject {
     func showLoading()
     func hideLoading()
     func refreshCollectionView()
+    func navigateToTeamDetailsScreen(with team: Team , selectedSport:Sport)
     func showError(message: String)
 }
 
@@ -29,11 +30,11 @@ class LeaguesDetailsViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = LeaguesDetailsPresenter(view: self)
         setupActivityIndicator()
         setupCollectionView()
         presenter?.viewDidLoad()
     }
+
     
     private func setupCollectionView() {
         // Compositional Layout
@@ -60,29 +61,36 @@ class LeaguesDetailsViewController: UICollectionViewController {
 extension LeaguesDetailsViewController {
     
     private func createCompositionalLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let sectionType = Section(rawValue: sectionIndex) else { return nil }
+        return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnvironment) ->NSCollectionLayoutSection? in
+        guard let sectionType = Section(rawValue: sectionIndex) else { return nil }
             
-            // If the section is empty, revert to a section with zero dimensions
-            // so that the screen appears symmetrical and there are no gaps
+        let itemsCount = self.presenter?.numberOfItems(in: sectionType) ?? 0
+        if itemsCount == 0 {
+            let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension:.fractionalHeight(1.0))
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+                
+            let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(180))
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
-            let itemsCount = self.presenter?.numberOfItems(in: sectionType) ?? 0
-            if itemsCount == 0 {
-                let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(0),heightDimension:.absolute(0))
-                let item = NSCollectionLayoutItem(layoutSize: itemSize)
-                let group = NSCollectionLayoutGroup.horizontal(layoutSize: itemSize, subitems: [item])
-                let section = NSCollectionLayoutSection(group: group)
-                section.contentInsets = .zero
-                return section
-            }
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 16, bottom: 16, trailing: 16)
             
-            switch sectionType {
+            let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .absolute(40))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                    layoutSize: headerSize, elementKind:UICollectionView.elementKindSectionHeader,alignment: .top
+                )
+            section.boundarySupplementaryItems = [sectionHeader]
+                
+            return section
+        }
+            
+        switch sectionType {
             case .upcomingEvents: return self.createUpcomingSection()
             case .latestResults:  return self.createLatestResultsSection()
             case .teamsList:      return self.createTeamsSection()
-            }
         }
     }
+}
     
     private func createUpcomingSection() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
@@ -185,33 +193,88 @@ extension LeaguesDetailsViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let sectionType = Section(rawValue: section) else { return 0 }
-        return presenter?.numberOfItems(in: sectionType) ?? 0
+        let realCount = presenter?.numberOfItems(in: sectionType) ?? 0
+        if realCount == 0 {
+            return activityIndicator.isAnimating ? 0 : 1
+        }
+        return realCount
+    }
+    
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let sectionType = Section(rawValue: indexPath.section) else { return }
+        
+        let itemsCount = presenter?.numberOfItems(in: sectionType) ?? 0
+        guard itemsCount > 0 else { return }
+        
+        let isTennis = presenter?.getSelectedSport == .tennis
+        
+        if sectionType == .teamsList && !isTennis {
+            presenter?.didSelectTeam(at: indexPath.item)
+        }
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let sectionType = Section(rawValue: indexPath.section) else { return UICollectionViewCell() }
+        
+        let itemsCount = presenter?.numberOfItems(in: sectionType) ?? 0
             
+        if itemsCount == 0 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmptySectionCollectionViewCell", for: indexPath) as! EmptySectionCollectionViewCell
+                
+                switch sectionType {
+                case .upcomingEvents:
+                    cell.configure(title: "No Upcoming Matches",
+                                   message: "There are no matches scheduled at the moment.",
+                                   imageName: "calendar.badge.clock")
+                case .latestResults:
+                    cell.configure(title: "No Finished Results",
+                                   message: "No recently finished matches recorded for this league.",
+                                   imageName: "doc.text.magnifyingglass")
+                case .teamsList:
+                    let isTennis = presenter?.getSelectedSport == .tennis
+                    cell.configure(title: isTennis ? "No Players Available" : "No Teams Available",
+                                   message: "Participating teams or players lists are currently empty.",
+                                   imageName: "person.3.sequence")
+                }
+                
+                return cell
+            }
+        
         switch sectionType {
         case .upcomingEvents:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingEventCollectionViewCell", for: indexPath) as! UpcomingEventCollectionViewCell
+            if let fixture = presenter?.upcomingMatch(at: indexPath.item) {
+                   cell.configure(with: fixture)
+            }
             return cell
         case .latestResults:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "LatestResultsCollectionViewCell", for: indexPath) as! LatestResultsCollectionViewCell
+            if let fixture = presenter?.latestResult(at: indexPath.item) {
+                   cell.configure(with: fixture)
+            }
             return cell
         case .teamsList:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCollectionViewCell", for: indexPath) as! TeamCollectionViewCell
+            if let team = presenter?.team(at: indexPath.item){
+                cell.configure(with: team)
+            }
             return cell
         }
     }
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
+            
             let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SectionHeaderView", for: indexPath)
             
             guard let sectionType = Section(rawValue: indexPath.section) else { return headerView }
+    
             
             let itemsCount = presenter?.numberOfItems(in: sectionType) ?? 0
-            if itemsCount == 0 {
+            let sport = presenter?.getSelectedSport
+            
+            if itemsCount == 0 && activityIndicator.isAnimating {
                 headerView.frame = .zero
                 return headerView
             }
@@ -220,7 +283,7 @@ extension LeaguesDetailsViewController {
                 switch sectionType {
                 case .upcomingEvents: titleLabel.text = "Upcoming Events"
                 case .latestResults:  titleLabel.text = "Latest Results"
-                case .teamsList:      titleLabel.text = "Participating Teams"
+                case .teamsList:      titleLabel.text =  (sport == .tennis) ? "Players": "Participating Teams"
                 }
             }
             return headerView
@@ -231,6 +294,24 @@ extension LeaguesDetailsViewController {
 
 
 extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
+    
+    func navigateToTeamDetailsScreen(with team: Team , selectedSport:Sport) {
+        guard team.teamKey != nil else {
+            showError(message: "Players data is temporarily unavailable for this team.")
+            return
+        }
+        
+        guard let teamDetailsVC = self.storyboard?.instantiateViewController(withIdentifier:"TeamDetails")as? TeamDetailsViewController else {
+            return
+        }
+        
+        teamDetailsVC.presenter =
+        TeamDetailsPresenter(view: teamDetailsVC,teamData: team,selectedSport: selectedSport)
+        
+        self.navigationItem.backButtonTitle = ""
+        self.navigationController?.pushViewController(teamDetailsVC, animated: true)
+    }
+    
     func showLoading() {
         activityIndicator.startAnimating()
     }
@@ -249,7 +330,9 @@ extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
             WhistleAlertManager.showErrorAlert(
                 on: self, title: "Error Occur..!!",
                 message: message,
-                okayHandler: {},
+                okayHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                },
                 retryHandler: {
                     self.presenter?.viewDidLoad()
                 }

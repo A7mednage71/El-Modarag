@@ -98,3 +98,18 @@ struct Player: Codable {
         case playerRating = "player_rating"
     }
 }
+
+
+struct TennisPlayer: Hashable {
+    let id: Int
+    let name: String
+    let logo: String?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
+    static func == (lhs: TennisPlayer, rhs: TennisPlayer) -> Bool {
+        return lhs.id == rhs.id
+    }
+}

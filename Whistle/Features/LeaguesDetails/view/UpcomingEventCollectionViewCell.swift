@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class UpcomingEventCollectionViewCell: UICollectionViewCell {
     
@@ -57,5 +58,49 @@ class UpcomingEventCollectionViewCell: UICollectionViewCell {
         
         liveBadgeDotView.layer.cornerRadius = 4
         liveBadgeDotView.clipsToBounds = true
+        
+        teamOneImageView.layer.cornerRadius = 16
+        teamOneImageView.clipsToBounds = true
+                
+        teamTwoImageView.layer.cornerRadius = 16
+        teamTwoImageView.clipsToBounds = true
+    }
+    
+    func configure(with fixture: LeagueFixture) {
+
+        teamOneNameLabel.text = fixture.eventHomeTeam ?? "Home Team"
+        teamTwoNameLabel.text = fixture.eventAwayTeam ?? "Away Team"
+        
+        
+        if let homeLogoString = fixture.homeTeamLogo, let homeURL = URL(string: homeLogoString) {
+            teamOneImageView.sd_setImage(
+                with: homeURL,
+                placeholderImage: UIImage(named: "loading_img"),
+                options: [.continueInBackground, .lowPriority],
+            )
+        } else {
+            teamOneImageView.image = UIImage(named: "team_logo")
+        }
+        
+        if let awayLogoString = fixture.awayTeamLogo, let awayURL = URL(string: awayLogoString) {
+            teamTwoImageView.sd_setImage(
+                with: awayURL,
+                placeholderImage: UIImage(named: "loading_img"),
+                options: [.continueInBackground, .lowPriority],
+            )
+        } else {
+            teamTwoImageView.image = UIImage(named: "team_logo")
+        }
+        
+
+        dateLabel.text = fixture.eventDate ?? "TBD"
+        timeLabel.text = fixture.eventTime ?? "--:--"
+    
+        matchStatusLabel.text = fixture.eventStatus ?? "Upcoming"
+        matchCategoryLabel.text = fixture.leagueName?.uppercased() ?? "CUP MATCH"
+    
+        vsImageView.image = UIImage(named: "vs_logo")
+        calendarIconImageView.image = UIImage(systemName: "calendar")
+        clockIconImageView.image = UIImage(systemName: "clock")
     }
 }

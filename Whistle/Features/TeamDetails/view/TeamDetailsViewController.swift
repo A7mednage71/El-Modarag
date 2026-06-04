@@ -30,8 +30,8 @@ class TeamDetailsViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = TeamDetailsPresenter(view: self)
         setupCollectionView()
+        setupActivityIndicator()
         presenter?.viewDidLoad()
     }
     
@@ -69,8 +69,11 @@ class TeamDetailsViewController: UICollectionViewController {
             case .TeamImage:
                return 1
             case .Players:
-               let count = presenter?.numberOfPlayers ?? 0
-               return count == 0 ? 1 : count  // 1 -> to handel empty
+              let realCount = presenter?.numberOfPlayers ?? 0
+              if realCount == 0 {
+                 return activityIndicator.isAnimating ? 0 : 1
+              }
+              return realCount
         }
     }
 
@@ -82,6 +85,10 @@ class TeamDetailsViewController: UICollectionViewController {
         switch sectionType {
             case .TeamImage:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamHeaderCollectionViewCell", for: indexPath) as! TeamHeaderCollectionViewCell
+                
+                if let team = presenter?.getTeamData{
+                    cell.configure(with: team)
+                 }
                 return cell
                 
             case .Players:
@@ -92,6 +99,10 @@ class TeamDetailsViewController: UICollectionViewController {
                 
                 if count > 0 {
                     cell.contentView.subviews.forEach { $0.isHidden = false }
+                    if let player = presenter?.player(at: indexPath.item){
+                        cell.configure(with: player)
+                    }
+                    
                 }else{
                     cell.contentView.subviews.forEach { $0.isHidden = true }
                     cell.contentView.backgroundColor = .clear
@@ -214,8 +225,11 @@ extension TeamDetailsViewController : TeamDetailsViewProtocol{
             WhistleAlertManager.showErrorAlert(
                 on: self, title: "Error Occur..!!",
                 message: message,
-                okayHandler: {},
+                okayHandler: {
+                    self.navigationController?.popViewController(animated: true)
+                },
                 retryHandler: {
+                    self.presenter?.viewDidLoad()
                 }
             )
         }

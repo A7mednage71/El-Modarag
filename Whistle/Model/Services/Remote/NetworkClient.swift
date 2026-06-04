@@ -10,7 +10,7 @@ import Alamofire
 
 class NetworkClient {
     
-    private static let apiKey = "60c5aa9f6eb50c6ad42456cdcb5902b99eb71120a683d5d79da9a63da254f7de"
+    private static let apiKey = "6359a35b4316575e15b09c3c170780c5614f625690e1d3c76ed70a9521498f82"
     private static let session = AF
     
     private init() {}
@@ -30,13 +30,25 @@ class NetworkClient {
                 urlRequest.url = urlComponents.url
             }
             
-            session.request(urlRequest)
-                .validate() // check server status is 200
+            session.request(urlRequest).cURLDescription { description in
+                print("🖥️ cURL Command: \(description)")
+            }.validate() // check server status is 200
                 .responseDecodable(of: T.self) { response in
-                    print("🌐 --- RAW JSON RESPONSE START ---")
-                    print(response)
-                    print("🌐 --- RAW JSON RESPONSE END ---")
+               
                     completion(response.result)
+                    
+                    switch response.result {
+                        case .success(let fixtures):
+                            print("Success: \(fixtures)")
+                            
+                        case .failure(let error):
+                            print("❌ Decoding Failed: \(error.localizedDescription)")
+                            
+                            // 👇 ADD THIS TO SEE THE REAL CULPRIT
+                            if let data = response.data, let jsonString = String(data: data, encoding: .utf8) {
+                                print("🌐 RAW API RESPONSE: \n\(jsonString)")
+                            }
+                        }
                 }
                 
         } catch {

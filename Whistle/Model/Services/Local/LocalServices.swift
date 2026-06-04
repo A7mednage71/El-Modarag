@@ -9,19 +9,19 @@
 import Foundation
 
 protocol LocalServicesProtocol {
-    static func saveFavorite(league: League)
-    static func fetchAllFavorites() -> [League]
+    static func saveFavorite(league: League , sportType: Sport)
+    static func fetchAllFavorites() -> [FavoriteLeague]
     static func deleteFavorite(leagueKey: Int)
     static func isFavorite(leagueKey: Int?) -> Bool
 }
 
 class LocalServices: LocalServicesProtocol {
     
-    static func saveFavorite(league: League) {
-        CoreDataManager.shared.saveFavoriteLeague(league: league)
+    static func saveFavorite(league: League ,sportType: Sport) {
+        CoreDataManager.shared.saveFavoriteLeague(league: league, sportType: sportType)
     }
     
-    static func fetchAllFavorites() -> [League] {
+    static func fetchAllFavorites() -> [FavoriteLeague] {
         return CoreDataManager.shared.fetchAllFavorites()
     }
     

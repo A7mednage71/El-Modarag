@@ -56,8 +56,9 @@ class OnboardingChildViewController: UIViewController, OnboardingChildViewProtoc
         
         containerView.backgroundColor = UIColor.clear
         containerView.layer.cornerRadius = 24
+        containerView.layer.borderColor = UIColor(named: "LimeNeon")?.cgColor
         containerView.layer.borderWidth = 1
-        containerView.layer.borderColor = UIColor.white.withAlphaComponent(0.15).cgColor
+        containerView.layer.borderColor = UIColor.green.cgColor
         containerView.clipsToBounds = true
         
         let blurEffect = UIBlurEffect(style: .light)

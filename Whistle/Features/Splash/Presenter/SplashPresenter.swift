@@ -24,6 +24,7 @@ class SplashPresenter: SplashPresenterProtocol {
     
     func viewDidAppear() {
         view?.startPulseAnimation { [weak self] in
+            self?.view?.displayAppVersion()
             self?.startProgressLoading()
         }
     }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="R1b-Ch-s2b">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="epb-Ie-U6A">
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23721"/>
@@ -18,54 +18,53 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_bg" translatesAutoresizingMaskIntoConstraints="NO" id="bns-1M-tjD" userLabel="splashBgImage">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="screen_bg" translatesAutoresizingMaskIntoConstraints="NO" id="bns-1M-tjD" userLabel="splashBgImage">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                                 <accessibility key="accessibilityConfiguration" label="splashBg"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="sports_logo" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-GO-vj5" userLabel="logo">
-                                <rect key="frame" x="96.666666666666686" y="218" width="200" height="200"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="whistle_splash_w_bg" translatesAutoresizingMaskIntoConstraints="NO" id="yUY-GO-vj5" userLabel="logo">
+                                <rect key="frame" x="46.666666666666657" y="276" width="300" height="300"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="ENs-sA-dca"/>
-                                    <constraint firstAttribute="width" constant="200" id="If8-4p-ug6"/>
+                                    <constraint firstAttribute="width" constant="300" id="aLA-Fr-yax"/>
+                                    <constraint firstAttribute="height" constant="300" id="m2c-f9-EUP"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EL MODARAG" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MbU-gQ-ewj">
-                                <rect key="frame" x="103" y="428" width="187" height="37"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                                <color key="shadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <size key="shadowOffset" width="1" height="1"/>
-                            </label>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.34999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="iQ2-Uh-svY">
-                                <rect key="frame" x="121.66666666666669" y="481" width="150" height="4"/>
-                                <color key="backgroundColor" systemColor="underPageBackgroundColor"/>
+                                <rect key="frame" x="121.66666666666669" y="620" width="150" height="4"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="aAO-zA-SmN"/>
                                 </constraints>
+                                <color key="progressTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxp-dc-QZU">
+                                <rect key="frame" x="176" y="738.66666666666663" width="41.333333333333343" height="20.333333333333371"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="fwu-RH-jTm"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="MbU-gQ-ewj" firstAttribute="centerX" secondItem="vbi-Lg-Xge" secondAttribute="centerX" id="DrM-LD-bmy"/>
+                            <constraint firstItem="yUY-GO-vj5" firstAttribute="centerY" secondItem="vbi-Lg-Xge" secondAttribute="centerY" id="0AT-eo-55d"/>
+                            <constraint firstItem="iQ2-Uh-svY" firstAttribute="top" secondItem="yUY-GO-vj5" secondAttribute="bottom" constant="44" id="0eo-VC-6AP"/>
+                            <constraint firstItem="fxp-dc-QZU" firstAttribute="centerX" secondItem="vbi-Lg-Xge" secondAttribute="centerX" id="4Mx-bM-nY3"/>
                             <constraint firstItem="bns-1M-tjD" firstAttribute="bottom" secondItem="vbi-Lg-Xge" secondAttribute="bottom" id="Iyo-RJ-x2F"/>
                             <constraint firstItem="bns-1M-tjD" firstAttribute="leading" secondItem="vbi-Lg-Xge" secondAttribute="leading" id="JRH-vs-0ka"/>
-                            <constraint firstItem="MbU-gQ-ewj" firstAttribute="top" secondItem="yUY-GO-vj5" secondAttribute="bottom" constant="10" id="PV0-hT-A5U"/>
-                            <constraint firstItem="yUY-GO-vj5" firstAttribute="centerX" secondItem="vbi-Lg-Xge" secondAttribute="centerX" id="QjZ-rc-Zpg"/>
-                            <constraint firstItem="iQ2-Uh-svY" firstAttribute="top" secondItem="MbU-gQ-ewj" secondAttribute="bottom" constant="16" id="XgA-0X-0xp"/>
-                            <constraint firstItem="yUY-GO-vj5" firstAttribute="top" secondItem="fwu-RH-jTm" secondAttribute="top" constant="100" id="bkV-EU-vEl"/>
+                            <constraint firstItem="fxp-dc-QZU" firstAttribute="centerX" secondItem="iQ2-Uh-svY" secondAttribute="centerX" id="Lfi-bH-XgE"/>
                             <constraint firstItem="bns-1M-tjD" firstAttribute="trailing" secondItem="vbi-Lg-Xge" secondAttribute="trailing" id="dMn-Qh-mN0"/>
                             <constraint firstItem="iQ2-Uh-svY" firstAttribute="centerX" secondItem="vbi-Lg-Xge" secondAttribute="centerX" id="iPE-bg-D6S"/>
                             <constraint firstItem="bns-1M-tjD" firstAttribute="top" secondItem="vbi-Lg-Xge" secondAttribute="top" id="nAG-nz-4Cm"/>
+                            <constraint firstItem="yUY-GO-vj5" firstAttribute="centerX" secondItem="vbi-Lg-Xge" secondAttribute="centerX" id="oZ0-1w-t8m"/>
+                            <constraint firstItem="fwu-RH-jTm" firstAttribute="bottom" secondItem="fxp-dc-QZU" secondAttribute="bottom" constant="25" id="uwo-bG-Iri"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="progressBar" destination="iQ2-Uh-svY" id="Yco-XF-pYa"/>
-                        <outlet property="splashAppName" destination="MbU-gQ-ewj" id="kdE-CB-mmE"/>
-                        <outlet property="splashBg" destination="bns-1M-tjD" id="I6B-T0-zgm"/>
                         <outlet property="splashLogo" destination="yUY-GO-vj5" id="M5j-82-bFI"/>
+                        <outlet property="versionLabel" destination="fxp-dc-QZU" id="vEp-eg-JYH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vGj-aa-xcV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -613,7 +612,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="DR4-FR-WD9">
             <objects>
-                <tabBarController id="R1b-Ch-s2b" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeScreen" id="R1b-Ch-s2b" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="w6g-xE-A2j">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1499,13 +1498,12 @@
         <image name="onboarding_screen_1" width="1179" height="2118"/>
         <image name="person.fill" catalog="system" width="128" height="120"/>
         <image name="screen_bg" width="600" height="960"/>
-        <image name="splash_bg" width="3024" height="4032"/>
-        <image name="sports_logo" width="680" height="510"/>
         <image name="star" catalog="system" width="128" height="116"/>
         <image name="team_bg_2" width="740" height="482"/>
         <image name="timer" catalog="system" width="128" height="123"/>
         <image name="trophy" catalog="system" width="128" height="128"/>
         <image name="vs_image" width="500" height="500"/>
+        <image name="whistle_splash_w_bg" width="500" height="500"/>
         <namedColor name="LimeNeon">
             <color red="0.74901960784313726" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -1529,9 +1527,6 @@
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="underPageBackgroundColor">
-            <color red="0.70980392156862748" green="0.71764705882352942" blue="0.74117647058823533" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

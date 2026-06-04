@@ -13,26 +13,24 @@ protocol SplashViewProtocol: AnyObject {
     func startPulseAnimation(completion: @escaping () -> Void)
     func updateProgressBar(progress: Float)
     func navigateToOnBoardingScreen()
+    func displayAppVersion()
 }
 
 
 class SplashViewController: UIViewController , SplashViewProtocol {
 
-    @IBOutlet weak var splashAppName: UILabel!
     @IBOutlet weak var splashLogo: UIImageView!
-    @IBOutlet weak var splashBg: UIImageView!
     @IBOutlet weak var progressBar: UIProgressView!
     
+    @IBOutlet weak var versionLabel: UILabel!
     var presenter : SplashPresenterProtocol?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter = SplashPresenter(view: self)
         
-        splashAppName.text = "WHISTLE"
         progressBar.progress = 0.0
         splashLogo.alpha = 0
-        splashAppName.alpha = 0
         
         // decrease logo size to 20 % from his size
         splashLogo.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
@@ -44,32 +42,28 @@ class SplashViewController: UIViewController , SplashViewProtocol {
     }
     
     // MARK: - Animations
-     func startPulseAnimation(completion: @escaping () -> Void) {
-
-        let totalDuration = 1.5
+    func startPulseAnimation(completion: @escaping () -> Void) {
+        let totalDuration = 1.6
         
         UIView.animateKeyframes(withDuration: totalDuration, delay: 0.1, options: [], animations: {
             
-            // from 0% to 40% of the time
-            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.4) {
-                // show logo and name
+            UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.45) {
                 self.splashLogo.alpha = 1.0
-                self.splashAppName.alpha = 1.0
-                // 30% larger than its normal size
-                self.splashLogo.transform = CGAffineTransform(scaleX: 1.3, y: 1.3)
+                
+                let scaleTransform = CGAffineTransform(scaleX: 1.25, y: 1.25)
+                let rotateTransform = CGAffineTransform(rotationAngle: -.pi / 12) // -15 degrees
+                
+                self.splashLogo.transform = scaleTransform.concatenating(rotateTransform)
             }
             
-            // from 40% to 70% of the time
-            UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.3) {
-                // CGAffineTransform.identity = normal status
-                self.splashLogo.transform = CGAffineTransform.identity
+            UIView.addKeyframe(withRelativeStartTime: 0.45, relativeDuration: 0.3) {
+                let scaleTransform = CGAffineTransform(scaleX: 0.95, y: 0.95)
+                let rotateTransform = CGAffineTransform(rotationAngle: .pi / 36) // +5 degrees
+                
+                self.splashLogo.transform = scaleTransform.concatenating(rotateTransform)
             }
             
-            UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.3) {
-                self.splashLogo.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
-            }
-            
-            UIView.addKeyframe(withRelativeStartTime: 0.95, relativeDuration: 0.05) {
+            UIView.addKeyframe(withRelativeStartTime: 0.75, relativeDuration: 0.25) {
                 self.splashLogo.transform = CGAffineTransform.identity
             }
             
@@ -79,7 +73,16 @@ class SplashViewController: UIViewController , SplashViewProtocol {
     }
     
     func updateProgressBar(progress: Float) {
+        
         self.progressBar.setProgress(progress, animated: true)
+        
+    }
+    
+    func displayAppVersion() {
+
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
+        let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
+        versionLabel.text = "Version \(appVersion) (\(buildNumber))"
     }
     
      func navigateToOnBoardingScreen() {
@@ -89,7 +92,7 @@ class SplashViewController: UIViewController , SplashViewProtocol {
         if let window = UIApplication.shared.connectedScenes.first
             .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {
             
-            UIView.transition(with: window, duration: 0.5, options:.transitionCrossDissolve, animations: {
+        UIView.transition(with: window, duration: 0.5, options:.transitionCrossDissolve, animations: {
                     window.rootViewController = onBoardingScreen
                 }, completion: nil)
             

@@ -39,7 +39,7 @@ class TeamCollectionViewCell: UICollectionViewCell {
                 options: [.continueInBackground, .lowPriority]
             )
         } else {
-            teamImageView.image = UIImage(named: "failure_img")
+            teamImageView.image = UIImage(named: "team_logo")
         }
         
     }

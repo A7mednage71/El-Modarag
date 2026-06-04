@@ -76,7 +76,7 @@ class LeagueTableViewCell: UITableViewCell {
                 )
                 
         }else {
-            leagueImageView.image = UIImage(named: "failure_img")
+            leagueImageView.image = UIImage(named: "team_logo")
         }
         
         let heartImage = isFavorite ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")

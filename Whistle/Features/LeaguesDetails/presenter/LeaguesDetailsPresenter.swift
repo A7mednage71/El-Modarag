@@ -8,18 +8,25 @@
 import Foundation
 
 protocol LeaguesDetailsPresenterProtocol: AnyObject {
+    var getSelectedSport: Sport{get}
     func viewDidLoad()
     func numberOfItems(in section: Section) -> Int
     func upcomingMatch(at index: Int) -> LeagueFixture
     func latestResult(at index: Int) -> LeagueFixture
     func team(at index: Int) -> Team
+    func didSelectTeam(at index: Int)
 }
 
 class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
-    
+   
     private weak var view:LeaguesDetailsViewProtocol?
     private let selectedSport: Sport
     private let leagueId: Int
+    
+    var getSelectedSport: Sport{
+        return selectedSport
+    }
+    
     
     let group = DispatchGroup()
     var errorMessage: String? = nil
@@ -27,6 +34,7 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
     private var upcomingMatches: [LeagueFixture] = []
     private var latestResults: [LeagueFixture] = []
     private var participatingTeams: [Team] = []
+    private var tennisPlayers: [TennisPlayer] = []
     
     init(view: LeaguesDetailsViewProtocol , selectedSport: Sport , leagueId: Int) {
         self.view = view
@@ -53,11 +61,18 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
         group.enter()
         fetchLatestResults()
         
-        group.enter()
-        fetchLeagueTeams()
-        
+        if selectedSport != .tennis {
+            group.enter()
+            fetchLeagueTeams()
+        }
+    
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
+            
+            if self.selectedSport == .tennis {
+                self.extractTennisPlayersLocally()
+            }
+            
             self.view?.hideLoading()
             if let errorMsg = errorMessage {
                 self.view?.showError(message: errorMsg)
@@ -73,7 +88,7 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
         formatter.dateFormat = "yyyy-MM-dd"
         
         let today = Date()
-        let month = Calendar.current.date(byAdding: .month, value: 1, to: today) ?? today
+        let month = Calendar.current.date(byAdding: .year, value: 4, to: today) ?? today
         
         let upcomingRequest = LeagueFixturesRequest(
                 sport: selectedSport,
@@ -103,12 +118,12 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
         formatter.dateFormat = "yyyy-MM-dd"
             
         let today = Date()
-        let month = Calendar.current.date(byAdding: .month, value: -1, to: today) ?? today
+        let sixMonthsAgo = Calendar.current.date(byAdding: .month, value: -6, to: today) ?? today
 
         let latestRequest = LeagueFixturesRequest(
                     sport: selectedSport,
                     leagueId: leagueId,
-                    fromDate: formatter.string(from: month),
+                    fromDate: formatter.string(from: sixMonthsAgo),
                     toDate: formatter.string(from: today),
                     timeZone: "Africa/Cairo"
                 )
@@ -142,6 +157,30 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
             }
     }
     
+    private func extractTennisPlayersLocally() {
+        var uniquePlayers = Set<TennisPlayer>()
+        let allMatches = latestResults + upcomingMatches
+        
+        for match in allMatches {
+            let playersInMatch = [
+                (name: match.eventHomeTeam, logo: match.homeTeamLogo),
+                (name: match.eventAwayTeam, logo: match.awayTeamLogo)
+            ]
+            
+            for player in playersInMatch {
+                if let name = player.name, !name.isEmpty {
+                    let pId = name.hashValue
+                    uniquePlayers.insert(TennisPlayer(id: pId, name: name, logo: player.logo))
+                }
+            }
+        }
+        
+        self.tennisPlayers = uniquePlayers.sorted { $0.name < $1.name }
+        self.participatingTeams = self.tennisPlayers.map { player in
+            return Team(teamKey: player.id, teamName: player.name, teamLogo: player.logo, players: [])
+        }
+    }
+    
     func numberOfItems(in section: Section) -> Int {
         switch section {
         case .upcomingEvents: return upcomingMatches.count
@@ -160,6 +199,11 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
     
     func team(at index: Int) -> Team {
         return participatingTeams[index]
+    }
+    
+    func didSelectTeam(at index: Int) {
+        let team = team(at: index)
+        self.view?.navigateToTeamDetailsScreen(with: team , selectedSport: selectedSport)
     }
     
 }

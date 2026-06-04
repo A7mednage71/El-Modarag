@@ -57,7 +57,7 @@ class FavoritesTableViewCell: UITableViewCell {
                 options: [.continueInBackground, .lowPriority]
             )
         } else {
-            leagueImageView.image = UIImage(named: "failure_img")
+            leagueImageView.image = UIImage(named: "team_logo")
         }
     }
 }

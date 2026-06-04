@@ -82,7 +82,7 @@ class LatestResultsCollectionViewCell: UICollectionViewCell {
                     options: [.continueInBackground, .lowPriority]
                 )
             } else {
-                teamOneImageView.image = UIImage(named: "failure_img")
+                teamOneImageView.image = UIImage(named: "team_logo")
             }
             
             if let awayLogoString = fixture.awayTeamLogo, let awayURL = URL(string: awayLogoString) {
@@ -92,7 +92,7 @@ class LatestResultsCollectionViewCell: UICollectionViewCell {
                     options: [.continueInBackground, .lowPriority]
                 )
             } else {
-                teamTwoImageView.image = UIImage(named: "failure_img")
+                teamTwoImageView.image = UIImage(named: "team_logo")
             }
         }
 }

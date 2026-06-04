@@ -28,6 +28,10 @@ class TeamHeaderCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupGradient() {
+        
+        teamLogo.layer.cornerRadius = 16
+        teamLogo.clipsToBounds = true
+        
         gradientLayer.colors = [
             UIColor.black.withAlphaComponent(0.25).cgColor,
             UIColor.black.withAlphaComponent(0.85).cgColor
@@ -36,5 +40,20 @@ class TeamHeaderCollectionViewCell: UICollectionViewCell {
         gradientLayer.locations = [0.0, 1.0]
         
         TeamBgImage.layer.addSublayer(gradientLayer)
+    }
+    
+    func configure(with team:Team) {
+        teamNameLabel.text = team.teamName
+        
+        if let url = URL(string: team.teamLogo ?? ""), url.scheme != nil {
+            teamLogo.sd_setImage(
+                    with: url,
+                    placeholderImage: UIImage(named: "loading_img"),
+                    options: [.continueInBackground, .lowPriority])
+                
+        }else {
+            teamLogo.image = UIImage(named: "team_logo")
+        }
+        
     }
 }

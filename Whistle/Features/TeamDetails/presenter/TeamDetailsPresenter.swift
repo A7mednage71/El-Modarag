@@ -10,49 +10,56 @@ import Foundation
 
 protocol TeamDetailsPresenterProtocol: AnyObject {
     func viewDidLoad()
-    var numberOfPlayers: Int { get }
-    func team(at index: Int) -> Team?
+    var  numberOfPlayers: Int { get }
+    var  getTeamData : Team{ get }
     func player(at index: Int) -> Player?
-
 }
 
 class TeamDetailsPresenter  : TeamDetailsPresenterProtocol{
     
     weak var view: TeamDetailsViewProtocol?
+    private var players:[Player] = []
+
+    private var teamData : Team
+    private let selectedSport: Sport
     
-    init(view: TeamDetailsViewProtocol) {
-        self.view = view
-    }
-    
-    private var teamData : Team?
-    
-    var numberOfPlayers: Int{
-        return teamData?.players?.count ?? 20
-    }
-    
-    
-    func viewDidLoad() {
-        fetchTeamData()
-    }
-    
-    private func fetchTeamData(){
-        view?.showLoading()
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){ [weak self] in
-            self?.view?.reloadPlayersList()
-            
-           // self?.view?.showEmptyState(message: "No players available in this team squad.")
-            self?.view?.hideLoading()
-        }
-    }
-    
-    func team(at index: Int) -> Team? {
+    var getTeamData: Team{
         return teamData
     }
     
+    var numberOfPlayers: Int{
+        return players.count
+    }
+    
+    
+    init(view: TeamDetailsViewProtocol , teamData : Team , selectedSport: Sport ) {
+        self.view = view
+        self.teamData = teamData
+        self.selectedSport = selectedSport
+    }
+        
+    func viewDidLoad() {
+        view?.showLoading()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            guard let self = self else { return }
+            
+            NetworkServices.getPlayersData(teamId: self.teamData.teamKey!, sport: self.selectedSport) { result in
+                
+                self.view?.hideLoading()
+                
+                switch result {
+                case .success(let response):
+                    self.players = response.result ?? []
+                    self.view?.reloadPlayersList()
+                case .failure(let error):
+                    self.view?.showError(message: error.localizedDescription)
+                }
+            }
+        }
+    }
+
     func player(at index: Int) -> Player? {
-        guard let players = teamData?.players, index >= 0
-                && index < players.count else { return nil }
         return players[index]
     }
 }

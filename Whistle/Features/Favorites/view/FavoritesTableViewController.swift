@@ -2,7 +2,7 @@
 //  FavoritesTableViewController.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 31/05/2026.
+//  Created by Omar on 31/05/2026.
 //
 
 import UIKit
@@ -31,7 +31,7 @@ class FavoritesTableViewController: UITableViewController {
         setupFullScreenBackground()
         setupActivityIndicator()
         presenter = FavoritesPresenter(view: self)
-        self.title = "Favorites"
+        self.title =  AppStrings.Favorites.title
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,11 +92,12 @@ class FavoritesTableViewController: UITableViewController {
         guard emptyStateView == nil else { return }
         
         let emptyView = WhistleReusableEmptyView(
-            frame: .zero,
-            title: "No Favorites Yet!",
-            message: "Your stadium is quiet. Add your favorite leagues to start tracking the live action and scores!",
-            imageName: "empty_state"
+                frame: .zero,
+                title: AppStrings.Favorites.EmptyState.title,
+                message: AppStrings.Favorites.EmptyState.message,
+                imageName: "empty_state"
         )
+        
         emptyView.translatesAutoresizingMaskIntoConstraints = false
         
         if let targetContainer = navigationController?.view {
@@ -159,7 +160,7 @@ extension FavoritesTableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
             
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+        let deleteAction = UIContextualAction(style: .destructive, title: AppStrings.Buttons.delete) { [weak self] (action, view, completionHandler) in
             
             guard let self = self else {
                 completionHandler(false)
@@ -168,10 +169,10 @@ extension FavoritesTableViewController {
             
             WhistleAlertManager.showConfirmationAlert(
                 on: self,
-                title: "Delete Favorite",
-                message: "Are you sure you want to remove this league?",
-                okayTitle: "Yes, Delete",
-                cancelTitle: "No",
+                title: AppStrings.Favorites.Actions.alertTitle,
+                message: AppStrings.Favorites.Actions.alertMsg,
+                okayTitle: AppStrings.Favorites.Actions.confirmYes,
+                cancelTitle: AppStrings.Favorites.Actions.confirmNo,
                 okayHandler: { [weak self] in
                     guard let self = self else { return }
                     self.presenter?.didRemoveFavorite(at: indexPath.section)
@@ -215,7 +216,7 @@ extension FavoritesTableViewController: FavoritesViewProtocol {
     
     func navigateToLeagueDetailsScreen(sport: Sport?, leagueName: String , leagueId: Int?) {
         guard let validLeagueId = leagueId , let sportType = sport else {
-            showError(message: "Match data is temporarily unavailable. Please try selecting the league again.")
+            showError(message: AppStrings.Leagues.navError)
             return
         }
         
@@ -235,7 +236,7 @@ extension FavoritesTableViewController: FavoritesViewProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             WhistleAlertManager.showErrorAlert(
-                on: self, title:  message,
+                on: self, title: AppStrings.Alerts.errorTitle,
                 message: message,
                 okayHandler: {
                     self.navigationController?.popViewController(animated: true)

@@ -50,6 +50,7 @@ class OnboardingChildViewController: UIViewController, OnboardingChildViewProtoc
         getStartedButton.titleLabel?.font = UIFont(name: "Cairo-Bold", size: 16) ?? .systemFont(ofSize: 16, weight: .bold)
         getStartedButton.setTitleColor(.darkGray, for: .normal)
         
+        skipButton.setTitle(AppStrings.Buttons.skip, for: .normal)
         skipButton.titleLabel?.font = UIFont(name: "Cairo-Bold", size: 16) ?? .systemFont(ofSize: 16, weight: .bold)
         
         skipButton.setTitleColor(.white, for: .normal)
@@ -76,10 +77,11 @@ class OnboardingChildViewController: UIViewController, OnboardingChildViewProtoc
         descriptionLabel.text = data.description
         
         if isLast {
-            getStartedButton.setTitle("Get Started", for: .normal)
+            getStartedButton.setTitle(AppStrings.Buttons.getStarted, for: .normal)
         } else {
-            getStartedButton.setTitle("Next", for: .normal)
+            getStartedButton.setTitle(AppStrings.Buttons.next, for: .normal)
         }
+        
         pageControl.currentPage = pageIndex
     }
     

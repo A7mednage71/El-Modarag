@@ -2,7 +2,7 @@
 //  LeagueTableViewCell.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 29/05/2026.
+//  Created by Omar on 29/05/2026.
 //
 
 import UIKit
@@ -54,6 +54,7 @@ class LeagueTableViewCell: UITableViewCell {
         leagueNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
             
         arrowIconButton.tintColor = .lightGray
+        arrowIconButton.semanticContentAttribute = .forceRightToLeft
         
         favIconButton.addTarget(self, action: #selector(favButtonTapped), for: .touchUpInside)
     }
@@ -66,7 +67,13 @@ class LeagueTableViewCell: UITableViewCell {
     
     func configure(with league: League , isFavorite : Bool) {
         leagueNameLabel.text = league.leagueName
-        leagueCountryName.text = league.countryName != nil ? "📍 \(league.countryName!)" :  "🏆 Global"
+        
+        if let country = league.countryName {
+            let format = String(localized: "league_country_format", defaultValue: "📍 %@")
+            leagueCountryName.text = String(format: format, country)
+        } else {
+            leagueCountryName.text = String(localized: "league_global", defaultValue: "🏆 Global")
+        }
             
         if let url = URL(string: league.leagueLogo ?? ""), url.scheme != nil {
             leagueImageView.sd_setImage(

@@ -223,20 +223,21 @@ extension LeaguesDetailsViewController {
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmptySectionCollectionViewCell", for: indexPath) as! EmptySectionCollectionViewCell
                 
                 switch sectionType {
-                case .upcomingEvents:
-                    cell.configure(title: "No Upcoming Matches",
-                                   message: "There are no matches scheduled at the moment.",
-                                   imageName: "calendar.badge.clock")
-                case .latestResults:
-                    cell.configure(title: "No Finished Results",
-                                   message: "No recently finished matches recorded for this league.",
-                                   imageName: "doc.text.magnifyingglass")
-                case .teamsList:
-                    let isTennis = presenter?.getSelectedSport == .tennis
-                    cell.configure(title: isTennis ? "No Players Available" : "No Teams Available",
-                                   message: "Participating teams or players lists are currently empty.",
-                                   imageName: "person.3.sequence")
-                }
+                   case .upcomingEvents:
+                       cell.configure(title: AppStrings.LeagueDetails.EmptyState.noUpcomingTitle,
+                               message: AppStrings.LeagueDetails.EmptyState.noUpcomingMessage,
+                               imageName: "calendar.badge.clock")
+                   case .latestResults:
+                       cell.configure(title: AppStrings.LeagueDetails.EmptyState.noResultsTitle,
+                                message: AppStrings.LeagueDetails.EmptyState.noResultsMessage,
+                               imageName: "doc.text.magnifyingglass")
+                   case .teamsList:
+                       let isTennis = presenter?.getSelectedSport == .tennis
+                       let title = isTennis ? AppStrings.LeagueDetails.EmptyState.noPlayersTitle : AppStrings.LeagueDetails.EmptyState.noTeamsTitle
+                       cell.configure(title: title,
+                               message: AppStrings.LeagueDetails.EmptyState.noTeamsMessage,
+                               imageName: "person.3.sequence")
+                 }
                 
                 return cell
             }
@@ -280,11 +281,13 @@ extension LeaguesDetailsViewController {
             }
             
             if let titleLabel = headerView.viewWithTag(100) as? UILabel {
+                titleLabel.textAlignment = .natural
+                
                 switch sectionType {
-                case .upcomingEvents: titleLabel.text = "Upcoming Events"
-                case .latestResults:  titleLabel.text = "Latest Results"
-                case .teamsList:      titleLabel.text =  (sport == .tennis) ? "Players": "Participating Teams"
-                }
+                    case .upcomingEvents: titleLabel.text = AppStrings.LeagueDetails.upcomingEvents
+                    case .latestResults:  titleLabel.text = AppStrings.LeagueDetails.latestResults
+                    case .teamsList:      titleLabel.text = (sport == .tennis) ? AppStrings.LeagueDetails.players : AppStrings.LeagueDetails.participatingTeams
+                    }
             }
             return headerView
         }
@@ -297,7 +300,7 @@ extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
     
     func navigateToTeamDetailsScreen(with team: Team , selectedSport:Sport) {
         guard team.teamKey != nil else {
-            showError(message: "Players data is temporarily unavailable for this team.")
+            showError(message: AppStrings.Alerts.playersNavError)
             return
         }
         
@@ -328,7 +331,7 @@ extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             WhistleAlertManager.showErrorAlert(
-                on: self, title: "Error Occur..!!",
+                on: self, title:AppStrings.Alerts.errorTitle,
                 message: message,
                 okayHandler: {
                     self.navigationController?.popViewController(animated: true)

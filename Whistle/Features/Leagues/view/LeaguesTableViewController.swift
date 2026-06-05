@@ -2,7 +2,7 @@
 //  LeaguesTableViewController.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 29/05/2026.
+//  Created by Omar on 29/05/2026.
 //
 
 import UIKit
@@ -17,6 +17,7 @@ protocol LeaguesViewProtocol: AnyObject {
 
 class LeaguesTableViewController: UIViewController {
         
+    @IBOutlet weak var leaguesHeaderLabel: UILabel!
     @IBOutlet weak var leaguesTable: UITableView!
     
     var presenter: LeaguesPresenterProtocol!
@@ -33,6 +34,8 @@ class LeaguesTableViewController: UIViewController {
     }
     
     private func setupFullScreenBackground() {
+        leaguesHeaderLabel.text = AppStrings.Leagues.title
+        
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "screen_bg")
         backgroundImageView.contentMode = .scaleAspectFill
@@ -77,7 +80,7 @@ extension LeaguesTableViewController: LeaguesViewProtocol {
     
     func navigateToLeaguesScreen(sport: Sport, leagueName: String , leagueId: Int?) {
         guard let validLeagueId = leagueId else {
-            showError(message: "Match data is temporarily unavailable. Please try selecting the league again.")
+            showError(message: AppStrings.Leagues.navError)
             return
         }
         
@@ -96,7 +99,7 @@ extension LeaguesTableViewController: LeaguesViewProtocol {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             WhistleAlertManager.showErrorAlert(
-                on: self, title:  message,
+                on: self, title: AppStrings.Alerts.errorTitle,
                 message: message,
                 okayHandler: {
                     self.navigationController?.popViewController(animated: true)

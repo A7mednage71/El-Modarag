@@ -2,7 +2,7 @@
 //  LeaguesPresenter.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 29/05/2026.
+//  Created by Omar on 29/05/2026.
 //
 
 import Foundation

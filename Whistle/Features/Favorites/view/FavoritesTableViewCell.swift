@@ -2,7 +2,7 @@
 //  FavoritesTableViewCell.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 31/05/2026.
+//  Created by Omar on 31/05/2026.
 //
 
 import UIKit
@@ -48,7 +48,14 @@ class FavoritesTableViewCell: UITableViewCell {
     
     func configure(with league: FavoriteLeague) {
         leagueNameLabel.text = league.leagueName
-        leagueCountryName.text = league.countryName != nil ? "📍 \(league.countryName!)" :  "🏆 Global"
+
+        if let country = league.countryName {
+            let format = String(localized: "league_country_format", defaultValue: "📍 %@")
+            leagueCountryName.text = String(format: format, country)
+        } else {
+            leagueCountryName.text = String(localized: "league_global", defaultValue: "🏆 Global")
+        }
+           
             
         if let logoString = league.leagueLogo, let url = URL(string: logoString), url.scheme != nil {
             leagueImageView.sd_setImage(

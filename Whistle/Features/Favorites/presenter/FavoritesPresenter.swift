@@ -2,7 +2,7 @@
 //  FavoritesPresenter.swift
 //  Whistle
 //
-//  Created by Ahmed Nageh on 31/05/2026.
+//  Created by Omar on 31/05/2026.
 //
 
 

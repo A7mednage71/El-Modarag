@@ -79,7 +79,10 @@ extension SportsViewController {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SportsHeaderReusableView", for: indexPath)
+            let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "SportsHeaderReusableView", for: indexPath) as! SportsHeaderReusableView
+            
+            header.configureLocalization()
+            
             return header
         }
         return UICollectionReusableView()

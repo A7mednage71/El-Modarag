@@ -20,21 +20,22 @@ class OnboardingPresenter : OnboardingPresenterProtocol{
     
     let onboardingPages: [OnboardingModel] = [
         OnboardingModel(
-            title: "FIFA WORLD CUP 2026",
-            description: "Experience the historic 23rd edition like never before. Track every legendary moment, group standings, and knockout drama live from New York.",
+            title: AppStrings.Onboarding.title1,
+            description: AppStrings.Onboarding.desc1,
             imageName: "onboarding_screen_1"
         ),
         OnboardingModel(
-            title: "THE PULSE OF CRISTIANO",
-            description: "Never miss a single heartbeat. Get ultra-fast notifications, elite performance stats, and live goal alerts for Ronaldo and the world's biggest icons.",
+            title: AppStrings.Onboarding.title2,
+            description: AppStrings.Onboarding.desc2,
             imageName: "onboarding_screen_2"
         ),
         OnboardingModel(
-            title: "ALL SPORTS, ONE FANZONE",
-            description: "From football to basketball and beyond! Join El-Modarag community to predict matches, analysis with fans, and live your ultimate passion natively.",
+            title: AppStrings.Onboarding.title3,
+            description: AppStrings.Onboarding.desc3,
             imageName: "onboarding_screen_3"
         )
     ]
+    
     
     init(view: OnboardingViewProtocol) {
         self.view = view

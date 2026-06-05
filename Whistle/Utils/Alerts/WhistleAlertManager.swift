@@ -13,16 +13,16 @@ class WhistleAlertManager {
     static func showErrorAlert(on viewController: UIViewController,title: String? , message: String,okayHandler: @escaping () -> Void , retryHandler: @escaping () -> Void ) {
         
         let alert = UIAlertController(
-            title: title ?? "Connection Error",
+            title: title ?? AppStrings.Alerts.errorTitle,
             message: message,
             preferredStyle: .alert
         )
         
-        let retryAction = UIAlertAction(title: "Retry", style: .default) { _ in
+        let retryAction = UIAlertAction(title: AppStrings.Buttons.retry, style: .default) { _ in
             retryHandler()
         }
         
-        let dismissAction = UIAlertAction(title: "OK", style: .cancel){_ in
+        let dismissAction = UIAlertAction(title: AppStrings.Buttons.ok, style: .cancel){_ in
             okayHandler()
         }
         
@@ -36,23 +36,26 @@ class WhistleAlertManager {
             on viewController: UIViewController,
             title: String?,
             message: String,
-            okayTitle: String = "OK",
-            cancelTitle: String = "Cancel",
+            okayTitle: String? = nil,
+            cancelTitle: String? = nil,
             okayHandler: @escaping () -> Void,
             cancelHandler: (() -> Void)? = nil
         ) {
             
             let alert = UIAlertController(
-                title: title ?? "Whistle",
+                title: title ?? AppStrings.Alerts.defaultTitle,
                 message: message,
                 preferredStyle: .alert
             )
             
-            let okayAction = UIAlertAction(title: okayTitle, style: .default) { _ in
+            let finalOkayTitle = okayTitle ?? AppStrings.Buttons.ok
+            let finalCancelTitle = cancelTitle ?? AppStrings.Buttons.cancel
+            
+            let okayAction = UIAlertAction(title: finalOkayTitle, style: .default) { _ in
                 okayHandler()
             }
             
-            let cancelAction = UIAlertAction(title: cancelTitle, style: .cancel) { _ in
+            let cancelAction = UIAlertAction(title: finalCancelTitle, style: .cancel) { _ in
                 cancelHandler?()
             }
             
@@ -61,4 +64,29 @@ class WhistleAlertManager {
             
             viewController.present(alert, animated: true, completion: nil)
         }
+    
+    static func showLanguagePicker(on viewController: UIViewController, completion: @escaping (String) -> Void) {
+        
+        let alert = UIAlertController(
+            title: AppStrings.Settings.LanguageAlert.title,
+            message: AppStrings.Settings.LanguageAlert.message,
+            preferredStyle: .actionSheet
+        )
+        
+        let arabicAction = UIAlertAction(title: "العربية", style: .default) { _ in
+            completion("ar")
+        }
+        
+        let englishAction = UIAlertAction(title: "English", style: .default) { _ in
+            completion("en")
+        }
+        
+        let cancelAction = UIAlertAction(title: AppStrings.Buttons.cancel, style: .cancel, handler: nil)
+        
+        alert.addAction(arabicAction)
+        alert.addAction(englishAction)
+        alert.addAction(cancelAction)
+                
+        viewController.present(alert, animated: true, completion: nil)
+    }
 }

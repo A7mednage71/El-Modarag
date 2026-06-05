@@ -15,10 +15,10 @@ enum Sport: String, CaseIterable {
     
     var title: String {
         switch self {
-          case .football:   return "Football"
-          case .basketball: return "Basketball"
-          case .cricket:    return "Cricket"
-          case .tennis:     return "Tennis"
+          case .football:   return AppStrings.Sports.football
+          case .basketball: return AppStrings.Sports.basketball
+          case .cricket:    return AppStrings.Sports.cricket
+          case .tennis:     return AppStrings.Sports.tennis
         }
     }
     

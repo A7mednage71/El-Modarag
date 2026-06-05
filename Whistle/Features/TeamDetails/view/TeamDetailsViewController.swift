@@ -110,8 +110,8 @@ class TeamDetailsViewController: UICollectionViewController {
                     cell.contentView.layer.borderWidth = 0
                     let emptyState = WhistleReusableEmptyView(
                         frame: cell.contentView.bounds,
-                        title: "Squad Not Available",
-                        message: "The roster for this team hasn't been announced yet. Stay tuned for the upcoming player lineup updates!",
+                        title: AppStrings.TeamDetails.SquadEmptyState.title,
+                        message: AppStrings.TeamDetails.SquadEmptyState.message,
                         imageName: "empty_state"
                     )
                     emptyState.tag = 999
@@ -180,7 +180,7 @@ extension TeamDetailsViewController {
  
             if let titleLabel = headerView.viewWithTag(200) as? UILabel {
                 switch sectionType {
-                case .Players:  titleLabel.text = "Team Players"
+                case .Players:  titleLabel.text = AppStrings.TeamDetails.teamPlayersHeader
                 case .TeamImage:  titleLabel.text = "Team"
                 }
             }
@@ -223,7 +223,7 @@ extension TeamDetailsViewController : TeamDetailsViewProtocol{
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             WhistleAlertManager.showErrorAlert(
-                on: self, title: "Error Occur..!!",
+                on: self, title: AppStrings.Alerts.defaultTitle,
                 message: message,
                 okayHandler: {
                     self.navigationController?.popViewController(animated: true)

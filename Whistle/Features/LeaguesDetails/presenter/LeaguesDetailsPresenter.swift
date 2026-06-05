@@ -87,6 +87,8 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        
         let today = Date()
         let month = Calendar.current.date(byAdding: .year, value: 4, to: today) ?? today
         
@@ -116,6 +118,8 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+
             
         let today = Date()
         let sixMonthsAgo = Calendar.current.date(byAdding: .month, value: -6, to: today) ?? today

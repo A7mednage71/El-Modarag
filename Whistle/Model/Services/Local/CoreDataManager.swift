@@ -19,10 +19,15 @@ protocol CoreDataManagerProtocol {
 class CoreDataManager  : CoreDataManagerProtocol{
 
     static let shared = CoreDataManager()
-    private init() {}
     
-    var context : NSManagedObjectContext{
-        return (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var context: NSManagedObjectContext
+    
+    private init(context: NSManagedObjectContext = (UIApplication.shared.delegate as!AppDelegate).persistentContainer.viewContext) {
+            self.context = context
+    }
+        
+    init(testingContext: NSManagedObjectContext) {
+        self.context = testingContext
     }
     
     func saveFavoriteLeague(league:League , sportType: Sport) {

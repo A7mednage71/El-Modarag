@@ -29,8 +29,6 @@ class OnboardingViewController: UIPageViewController , UIPageViewControllerDeleg
         super.viewDidLoad()
         self.delegate = self
         self.dataSource = self
-        
-        presenter = OnboardingPresenter(view: self)
         presenter?.viewDidLoad()
     }
     
@@ -41,18 +39,18 @@ class OnboardingViewController: UIPageViewController , UIPageViewControllerDeleg
     
     func navigateToMainScreen() {
         
+        UserDefaultsManager.setOnboardingCompleted(true)
+        
         guard let mainScreen = self.storyboard?.instantiateViewController(withIdentifier: "MainTabBarController") as? MainTabBarController else { return }
-            
+        
         if let window = UIApplication.shared.connectedScenes.first
             .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {
             
             UIView.transition(with: window, duration: 0.5, options:.transitionCrossDissolve, animations: {
                     window.rootViewController = mainScreen
                 }, completion: nil)
-            
         }
     }
-    
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         
@@ -68,7 +66,5 @@ class OnboardingViewController: UIPageViewController , UIPageViewControllerDeleg
         guard let nextIndex = presenter?.getIndex(after: currentVc.pageIndex) else { return nil }
         
         return presenter?.getViewController(at: nextIndex)
-
     }
-
 }

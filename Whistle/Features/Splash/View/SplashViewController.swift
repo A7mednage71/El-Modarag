@@ -13,6 +13,7 @@ protocol SplashViewProtocol: AnyObject {
     func startPulseAnimation(completion: @escaping () -> Void)
     func updateProgressBar(progress: Float)
     func navigateToOnBoardingScreen()
+    func navigateToMainScreen()
     func displayAppVersion()
 }
 
@@ -87,14 +88,29 @@ class SplashViewController: UIViewController , SplashViewProtocol {
     }
     
      func navigateToOnBoardingScreen() {
-        
-        guard let onBoardingScreen = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController") else { return }
-            
+         
+        guard let onBoardingScreen = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController") as? OnboardingViewController else { return }
+         onBoardingScreen.presenter = AppDelegate.container.makeOnboardingPresenter(view: onBoardingScreen)
+         
         if let window = UIApplication.shared.connectedScenes.first
             .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {
             
         UIView.transition(with: window, duration: 0.5, options:.transitionCrossDissolve, animations: {
                     window.rootViewController = onBoardingScreen
+                }, completion: nil)
+            
+        }
+    }
+    
+    func navigateToMainScreen() {
+
+        guard let mainScreen = self.storyboard?.instantiateViewController(withIdentifier: "MainTabBarController") as? MainTabBarController else { return }
+            
+        if let window = UIApplication.shared.connectedScenes.first
+            .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {
+            
+            UIView.transition(with: window, duration: 0.5, options:.transitionCrossDissolve, animations: {
+                    window.rootViewController = mainScreen
                 }, completion: nil)
             
         }

@@ -38,8 +38,17 @@ class SplashPresenter: SplashPresenterProtocol {
             
             if self.currentProgress >= 1.0 {
                 timer.invalidate()
-                self.view?.navigateToOnBoardingScreen()
+                self.checkUserStatus()
             }
         }
     }
+    
+    func checkUserStatus() {
+        if UserDefaultsManager.isOnboardingCompleted() {
+            view?.navigateToMainScreen()
+        } else {
+            view?.navigateToOnBoardingScreen()
+        }
+    }
+    
 }

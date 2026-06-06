@@ -21,6 +21,15 @@ class AppContainer {
         return NetworkServices(client: networkClient)
     }
     
+
+    func makeSplashPresenter(view: SplashViewProtocol) -> SplashPresenterProtocol {
+        return SplashPresenter(view: view)
+    }
+
+    func makeOnboardingPresenter(view: OnboardingViewProtocol) -> OnboardingPresenterProtocol {
+        return OnboardingPresenter(view: view)
+    }
+    
     func makeSportsPresenter(view: SportsViewProtocol) -> SportsPresenterProtocol {
             return SportsPresenter(view: view)
     }

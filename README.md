@@ -1,87 +1,200 @@
-# Whistle
+<div align="center">
 
-> Sports match & team tracker — iOS app built with Swift
+<img src="Whistle/Assets.xcassets/whistle_splash.imageset/whistle_splash.png" alt="Whistle Logo" width="120" height="120" />
 
-## About
+# 🏟️ Whistle
 
-Whistle is an iOS application designed to track upcoming matches, teams, and leagues. It includes localized UI strings, a modular feature structure, asset catalogs, and Core Data persistence for offline data.
+**Your ultimate sports companion — track matches, leagues, and teams on the go.**
 
-## Key Features
+[![Swift](https://img.shields.io/badge/Swift-5.0+-FA7343?style=flat-square&logo=swift&logoColor=white)](https://swift.org)
+[![iOS](https://img.shields.io/badge/iOS-14.0+-000000?style=flat-square&logo=apple&logoColor=white)](https://developer.apple.com/ios/)
+[![Xcode](https://img.shields.io/badge/Xcode-14.0+-147EFB?style=flat-square&logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-- Track upcoming matches and teams
-- League and team details screens
-- Favorites management and local persistence (Core Data)
-- Onboarding and localized UI
-- Well-organized assets and theming via asset catalogs
+</div>
 
-## Requirements
+---
 
-- Xcode 14+ (or latest stable Xcode)
-- iOS 14+ deployment target (adjust in project settings as needed)
-- Swift 5+
+## 📖 Overview
 
-## Getting started
+**Whistle** is a native iOS application built with **Swift** and **UIKit** that keeps sports fans connected to the action. Browse live leagues across football, basketball, cricket, and tennis — save your favorite teams, explore upcoming fixtures, and dive deep into team details, all with a sleek, localized interface that feels right at home in Arabic or English.
 
-1. Clone the repository:
+---
 
-```
-git clone <repo-url>
-cd Whistle
-```
+## ✨ Features
 
-2. Open the workspace in Xcode:
+| Feature | Description |
+|---|---|
+| 🏆 **Multi-Sport Support** | Football, Basketball, Cricket & Tennis leagues |
+| 📅 **Upcoming Matches** | Browse fixtures with match details at a glance |
+| ⭐ **Favorites** | Save teams and leagues with Core Data persistence |
+| 🏅 **Team Details** | In-depth team info, players, and season stats |
+| 🌍 **Localization** | Full Arabic & English support (RTL/LTR) |
+| 🎨 **Onboarding** | Beautiful, illustrated onboarding experience |
+| 📴 **Offline-Ready** | Core Data caching for offline browsing |
 
-```
-open Whistle.xcworkspace
-```
+---
 
-3. Select a target device/simulator and press Run (⌘R).
-
-Note: If the project uses CocoaPods or other managers, run the appropriate install step before opening the workspace. (No Podfile detected in this repository snapshot.)
-
-## Build & Run (CLI)
-
-You can build or run tests from the command line with `xcodebuild`. Replace `Whistle` with the correct scheme name if different.
+## 🖼️ App Flow
 
 ```
-# Build
-xcodebuild -workspace Whistle.xcworkspace -scheme Whistle -sdk iphonesimulator -configuration Debug build
-
-# Run tests
-xcodebuild -workspace Whistle.xcworkspace -scheme Whistle -sdk iphonesimulator -configuration Debug test
+Splash → Onboarding → Main Tab Bar
+                          ├── Leagues        (browse all sports leagues)
+                          ├── League Details (fixtures + standings)
+                          ├── Team Details   (squad, info, stats)
+                          ├── Favorites      (saved teams & leagues)
+                          └── Settings       (language & preferences)
 ```
 
-If the workspace contains multiple schemes, list them with `xcodebuild -list -workspace Whistle.xcworkspace`.
+---
 
-## Project structure (high level)
+## 🏗️ Architecture
 
-- `Application/` — App lifecycle (AppDelegate, SceneDelegate, Info.plist)
-- `Features/` — Feature modules (Favorites, Leagues, Onboarding, Splash, TeamDetails, etc.)
-- `Model/` — Entities and services (Core Data models, network services)
-- `Utils/` — Helpers, states, alerts, enums
-- `Assets.xcassets/` — App images, icons, color sets
-- `Whistle.xcdatamodeld/` — Core Data model
-- `Whistle.xcodeproj/` and `project.xcworkspace/` — Xcode project and workspace files
+Whistle follows the **MVP (Model-View-Presenter)** pattern for clean separation of concerns and testability:
 
-## Localization
+```
+Whistle/
+├── Application/          # AppDelegate, SceneDelegate, Info.plist
+├── Features/
+│   ├── Splash/           # Launch screen & flow
+│   ├── Onboarding/       # First-run walkthrough
+│   ├── Main/             # Tab bar controller
+│   ├── Leagues/          # Sports & league listing
+│   ├── LeaguesDetails/   # Fixtures and league info
+│   ├── TeamDetails/      # Team squad & stats
+│   ├── Favorites/        # Persisted favorites
+│   ├── Settings/         # App preferences
+│   └── sports/           # Shared sports utilities
+├── Model/                # Entities, DTOs, network services
+├── Utils/                # Helpers, enums, alert states
+├── Assets.xcassets/      # Images, icons, color palettes
+└── Whistle.xcdatamodeld/ # Core Data schema
+```
 
-The project includes localized strings and resources (`ar.lproj`, `Base.lproj`). Add new localizations via Xcode (Project > Localizations) and keep `.strings` files in the appropriate `.lproj` folders.
+---
 
-## Testing
+## 🎨 Design System
 
-- Unit and presenter tests live in the `WhistleTests/` tree. Use Xcode’s Test navigator or `xcodebuild test` as shown above.
-- Mock implementations for Core Data and network clients are provided in the testing targets to make unit tests isolated and fast.
+The app uses a curated dark-themed color palette defined in `Assets.xcassets`:
 
-## Contributing
+| Token | Usage |
+|---|---|
+| `DeepForestNight` | Primary background |
+| `PitchTurfGreen` | Accent & interactive elements |
+| `LimeNeon` | Highlights & active states |
+| `DarkGray` | Secondary surfaces |
+| `primary` | Brand primary color |
 
-- Please open an issue for bugs or feature requests.
-- For code contributions, fork the repo, create a feature branch, and open a pull request describing your changes.
-- Keep changes small and focused; follow existing project structure and naming conventions.
+---
 
-## License
+## 🚀 Getting Started
 
-This repository does not include a license file. Add a `LICENSE` if you want to specify usage terms. If you want, I can add an MIT or other license for you.
+### Prerequisites
 
-## Contact
+- **Xcode** 14.0 or later
+- **iOS** 14.0+ deployment target
+- **Swift** 5.0+
 
-If you want help running the app, adding CI, or preparing a release, tell me which task to do next.
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/A7mednage71/El-Modarag.git
+   cd El-Modarag
+   ```
+
+2. **Open in Xcode**
+
+   ```bash
+   open Whistle.xcodeproj
+   ```
+
+3. **Select a simulator or device**, then press **⌘R** to build and run.
+
+> **Note:** No CocoaPods or SPM dependencies are required — the project is self-contained.
+
+---
+
+## 🧪 Testing
+
+Unit and presenter tests live under `WhistleTests/`. The testing target includes mock implementations for both Core Data and the network layer, keeping tests fast and isolated.
+
+```bash
+# Run all tests via CLI
+xcodebuild test \
+  -project Whistle.xcodeproj \
+  -scheme Whistle \
+  -sdk iphonesimulator \
+  -destination 'platform=iOS Simulator,name=iPhone 15'
+```
+
+Or simply use Xcode's **Test Navigator** (`⌘6`) and press **⌘U**.
+
+---
+
+## 🌍 Localization
+
+The app ships with **Arabic** and **English** localizations.
+
+- String catalogs: `Whistle/Localizable.xcstrings`
+- Language packs: `ar.lproj/`, `Base.lproj/`
+
+To add a new language, go to **Project Settings → Info → Localizations** in Xcode and add your target language.
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how:
+
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feat/amazing-feature`
+3. **Commit** your changes: `git commit -m 'feat: add amazing feature'`
+4. **Push** to your branch: `git push origin feat/amazing-feature`
+5. **Open** a Pull Request
+
+Please keep changes small and focused, and follow the existing project structure and naming conventions.
+
+> For bugs or feature requests, please [open an issue](https://github.com/A7mednage71/El-Modarag/issues).
+
+---
+
+## 👥 Team Members & Task Allocation
+
+### 👨‍💻 Ahmed Nageh
+- Localization + Settings Screen
+- Testing
+- Create Three Onboarding Screens
+- Leagues Details UI + View Model
+- Create Team Details Screen UI
+- Show Leagues List From API Based On Sport
+- App Logo & Launch Screen & Splash Screen
+- Save / Delete / Show Favorites from Core Data
+
+### 👨‍💻 Omar Amer
+- Dependency Injection (DI) & App Container
+- Sports / Home Screen UI
+- Leagues List Screen UI
+- Favorites Screen UI
+- Fetch Leagues Details From API
+- Handle Disappear of Onboarding Screen
+- Fetch Team Details From API
+
+### 🤝 Shared Tasks (Omar Amer & Ahmed Nageh)
+- Create Project Structure and Folders and Upload it to Github
+- API Models & Create API Key
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+Made with ❤️ for the love of sport
+
+</div>

@@ -11,12 +11,10 @@ class SettingsViewController: UIViewController {
 
     @IBOutlet weak var settingsTableView: UITableView!
     
-    private var presenter: SettingsPresenterProtocol!
+    var presenter: SettingsPresenterProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = SettingsPresenter(view: self)
-        
         setupFullScreenBackground()
         setupTableView()
         setupNavigationBar()
@@ -56,14 +54,14 @@ class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return presenter.numberOfRows
+        return presenter?.numberOfRows ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsTableViewCell", for: indexPath) as! SettingsTableViewCell
         
-        let title = presenter.getRowTitle()
-        let icon = presenter.getRowIcon()
+        let title = presenter?.getRowTitle() ?? ""
+        let icon = presenter?.getRowIcon() ?? ""
         
         cell.configure(title: title, iconName: icon)
         return cell
@@ -73,7 +71,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
             
             WhistleAlertManager.showLanguagePicker(on: self) { [weak self] selectedLanguageCode in
-                self?.presenter.selectLanguage(to: selectedLanguageCode)
+                self?.presenter?.selectLanguage(to: selectedLanguageCode)
             }
         }
     

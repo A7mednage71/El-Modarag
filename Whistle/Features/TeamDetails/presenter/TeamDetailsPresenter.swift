@@ -17,6 +17,9 @@ protocol TeamDetailsPresenterProtocol: AnyObject {
 
 class TeamDetailsPresenter  : TeamDetailsPresenterProtocol{
     
+    private let networkService: NetworkServicesProtocol
+
+    
     weak var view: TeamDetailsViewProtocol?
     private var players:[Player] = []
 
@@ -32,10 +35,12 @@ class TeamDetailsPresenter  : TeamDetailsPresenterProtocol{
     }
     
     
-    init(view: TeamDetailsViewProtocol , teamData : Team , selectedSport: Sport ) {
+    init(view: TeamDetailsViewProtocol , teamData : Team , selectedSport: Sport , networkService: NetworkServicesProtocol
+     ) {
         self.view = view
         self.teamData = teamData
         self.selectedSport = selectedSport
+        self.networkService = networkService
     }
         
     func viewDidLoad() {
@@ -44,7 +49,7 @@ class TeamDetailsPresenter  : TeamDetailsPresenterProtocol{
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
             guard let self = self else { return }
             
-            NetworkServices.getPlayersData(teamId: self.teamData.teamKey!, sport: self.selectedSport) { result in
+            networkService.getPlayersData(teamId: self.teamData.teamKey!, sport: self.selectedSport) { result in
                 
                 self.view?.hideLoading()
                 

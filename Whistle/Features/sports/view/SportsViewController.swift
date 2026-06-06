@@ -13,7 +13,6 @@ class SportsViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter = SportsPresenter(view: self)
         setUpBackButton()
         setupCollectionView()
         presenter?.viewDidLoad()
@@ -96,7 +95,10 @@ extension SportsViewController :SportsViewProtocol {
         
         guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier: "LeaguesTableViewController") as? LeaguesTableViewController else { return }
             
-        let leaguesPresenter = LeaguesPresenter(view: leaguesVC, selectedSport: sport)
+        let leaguesPresenter = AppDelegate.container.makeLeaguesPresenter(
+                view: leaguesVC,
+                selectedSport: sport
+        )
             
         leaguesVC.presenter = leaguesPresenter
         self.navigationController?.pushViewController(leaguesVC, animated: true)

@@ -13,7 +13,7 @@
         <!--Splash View Controller-->
         <scene sceneID="Yj4-jl-O08">
             <objects>
-                <viewController id="epb-Ie-U6A" customClass="SplashViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SplashViewController" id="epb-Ie-U6A" customClass="SplashViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vbi-Lg-Xge">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -74,7 +74,7 @@
         <!--Onboarding View Controller-->
         <scene sceneID="5yp-KM-wOr">
             <objects>
-                <pageViewController storyboardIdentifier="OnBoardingScreen" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="eLG-9P-I60" customClass="OnboardingViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="OnboardingViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="eLG-9P-I60" customClass="OnboardingViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kXg-Tn-5Pw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1042" y="715"/>
@@ -182,7 +182,7 @@
         <!--Leagues Details View Controller-->
         <scene sceneID="68T-17-VJL">
             <objects>
-                <collectionViewController storyboardIdentifier="LeaguesDetails" id="QhC-Lt-iOH" customClass="LeaguesDetailsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="LeaguesDetailsViewController" id="QhC-Lt-iOH" customClass="LeaguesDetailsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="AfP-z1-R5H">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -553,13 +553,13 @@
                                                         <constraint firstAttribute="width" constant="80" id="lu3-Dz-gkH"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6i-iE-UWr">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6i-iE-UWr">
                                                     <rect key="frame" x="14.333333333333332" y="96" width="51.333333333333343" height="24"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hK-Dq-2a0">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2hK-Dq-2a0">
                                                     <rect key="frame" x="22.333333333333332" y="136" width="35.333333333333343" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -612,7 +612,7 @@
         <!--Main Tab Bar Controller-->
         <scene sceneID="DR4-FR-WD9">
             <objects>
-                <tabBarController storyboardIdentifier="HomeScreen" id="R1b-Ch-s2b" customClass="MainTabBarController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainTabBarController" id="R1b-Ch-s2b" customClass="MainTabBarController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="w6g-xE-A2j">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -667,7 +667,7 @@
         <!--Favorites Table View Controller-->
         <scene sceneID="qTm-Rh-o9T">
             <objects>
-                <tableViewController id="ZRY-q2-FTf" customClass="FavoritesTableViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="FavoritesTableViewController" id="ZRY-q2-FTf" customClass="FavoritesTableViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="8FP-F2-srf">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -862,7 +862,7 @@
         <!--Sports View Controller-->
         <scene sceneID="Pb9-L1-exZ">
             <objects>
-                <collectionViewController id="tVG-Zt-F4W" customClass="SportsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="SportsViewController" id="tVG-Zt-F4W" customClass="SportsViewController" customModule="Whistle" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="IHe-og-v3r">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -967,7 +967,7 @@
         <!--Team Details View Controller-->
         <scene sceneID="QCw-ow-wkx">
             <objects>
-                <collectionViewController storyboardIdentifier="TeamDetails" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IHa-Ic-adM" customClass="TeamDetailsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <collectionViewController storyboardIdentifier="TeamDetailsViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IHa-Ic-adM" customClass="TeamDetailsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="prototypes" id="Jaz-B1-pIA">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1017,13 +1017,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="4cx-LD-aDE">
                                                     <rect key="frame" x="70" y="15.666666666666671" width="173" height="45"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="David Chen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDa-30-J4I">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="David Chen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDa-30-J4I">
                                                             <rect key="frame" x="0.0" y="0.0" width="98" height="21.666666666666668"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Defender / 30 yrs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aK-8t-vQG">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Defender / 30 yrs" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3aK-8t-vQG">
                                                             <rect key="frame" x="0.0" y="25.666666666666671" width="134" height="19.333333333333329"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1499,7 +1499,7 @@
         <!--Settings View Controller-->
         <scene sceneID="r6W-oe-G0F">
             <objects>
-                <viewController id="GNY-oq-geS" customClass="SettingsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SettingsViewController" id="GNY-oq-geS" customClass="SettingsViewController" customModule="Whistle" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Fz-36-VG8">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

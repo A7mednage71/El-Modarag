@@ -31,6 +31,7 @@ class SplashViewController: UIViewController , SplashViewProtocol {
         
         progressBar.progress = 0.0
         splashLogo.alpha = 0
+        versionLabel.text = ""
         
         // decrease logo size to 20 % from his size
         splashLogo.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
@@ -87,7 +88,7 @@ class SplashViewController: UIViewController , SplashViewProtocol {
     
      func navigateToOnBoardingScreen() {
         
-        guard let onBoardingScreen = self.storyboard?.instantiateViewController(withIdentifier: "OnBoardingScreen") else { return }
+        guard let onBoardingScreen = self.storyboard?.instantiateViewController(withIdentifier: "OnboardingViewController") else { return }
             
         if let window = UIApplication.shared.connectedScenes.first
             .flatMap({ ($0 as? UIWindowScene)?.windows.first }) {

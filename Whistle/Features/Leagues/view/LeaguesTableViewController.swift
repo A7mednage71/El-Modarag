@@ -84,14 +84,21 @@ extension LeaguesTableViewController: LeaguesViewProtocol {
             return
         }
         
-        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetailsViewController")as? LeaguesDetailsViewController else {
             return
         }
+        
+        let detailsPresenter = AppDelegate.container.makeLeaguesDetailsPresenter(
+                    view: leaguesVC,
+                    selectedSport: sport,
+                    leagueId: validLeagueId
+                )
+        
         self.navigationItem.backButtonTitle = ""
         leaguesVC.title = leagueName
+    
         
-        let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sport, leagueId: validLeagueId)
-        leaguesVC.presenter = leaguesPresenter
+        leaguesVC.presenter = detailsPresenter
         self.navigationController?.pushViewController(leaguesVC, animated: true)
     }
     
@@ -145,16 +152,11 @@ extension LeaguesTableViewController: UITableViewDelegate, UITableViewDataSource
             cell.onFavButtonTapped = { [weak self] in
                 guard let _ = self else { return }
                 guard let sportType = self?.presenter.getSelectedSport else { return  }
-                
-                if LocalServices.isFavorite(leagueKey: leagueItem.leagueKey) {
-                    LocalServices.deleteFavorite(leagueKey: leagueItem.leagueKey ?? 0)
-                } else {
-                    LocalServices.saveFavorite(league: leagueItem , sportType: sportType)
-                }
+                self?.presenter?.toggleFavorite(at: indexPath.section)
                 tableView.reloadSections(IndexSet(integer: indexPath.section), with: .fade)
             }
                     
-            let isFavorite = LocalServices.isFavorite(leagueKey: leagueItem.leagueKey)
+            let isFavorite = presenter?.isLeagueFavorite(at: indexPath.section) ?? false
             cell.configure(with: leagueItem , isFavorite: isFavorite)
         }
         return cell

@@ -18,6 +18,8 @@ protocol LeaguesDetailsPresenterProtocol: AnyObject {
 }
 
 class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
+    
+    private let networkService: NetworkServicesProtocol
    
     private weak var view:LeaguesDetailsViewProtocol?
     private let selectedSport: Sport
@@ -36,10 +38,12 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
     private var participatingTeams: [Team] = []
     private var tennisPlayers: [TennisPlayer] = []
     
-    init(view: LeaguesDetailsViewProtocol , selectedSport: Sport , leagueId: Int) {
+    init(view: LeaguesDetailsViewProtocol , selectedSport: Sport , leagueId: Int ,
+         networkService: NetworkServicesProtocol) {
         self.view = view
         self.selectedSport = selectedSport
         self.leagueId = leagueId
+        self.networkService = networkService
     }
     
     func viewDidLoad() {
@@ -100,7 +104,7 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
                 timeZone: "Africa/Cairo"
             )
                 
-        NetworkServices.getLeagueFixturesData(request: upcomingRequest) { [weak self] result in
+        networkService.getLeagueFixturesData(request: upcomingRequest) { [weak self] result in
             guard let self = self else { return }
             
             defer { group.leave() }
@@ -132,7 +136,7 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
                     timeZone: "Africa/Cairo"
                 )
         
-        NetworkServices.getLeagueFixturesData(request: latestRequest) { [weak self] result in
+        networkService.getLeagueFixturesData(request: latestRequest) { [weak self] result in
             guard let self = self else { return }
             
             defer { group.leave() }
@@ -147,7 +151,7 @@ class LeaguesDetailsPresenter : LeaguesDetailsPresenterProtocol{
     }
     
     private func fetchLeagueTeams() {
-        NetworkServices.getLeagueTeams(leagueId: leagueId, sport: selectedSport){ [weak self] result in
+        networkService.getLeagueTeams(leagueId: leagueId, sport: selectedSport){ [weak self] result in
             guard let self = self else { return }
             
             defer { group.leave() }

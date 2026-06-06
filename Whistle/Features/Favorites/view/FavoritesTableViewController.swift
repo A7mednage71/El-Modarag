@@ -17,7 +17,7 @@ protocol FavoritesViewProtocol: AnyObject {
 
 class FavoritesTableViewController: UITableViewController {
 
-    private var presenter: FavoritesPresenterProtocol!
+    var presenter: FavoritesPresenterProtocol!
     let activityIndicator = UIActivityIndicatorView()
     private var emptyStateView: WhistleReusableEmptyView?
 
@@ -30,7 +30,6 @@ class FavoritesTableViewController: UITableViewController {
         setupTableView()
         setupFullScreenBackground()
         setupActivityIndicator()
-        presenter = FavoritesPresenter(view: self)
         self.title =  AppStrings.Favorites.title
     }
     
@@ -220,13 +219,18 @@ extension FavoritesTableViewController: FavoritesViewProtocol {
             return
         }
         
-        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetails")as? LeaguesDetailsViewController else {
+        guard let leaguesVC = self.storyboard?.instantiateViewController(withIdentifier:"LeaguesDetailsViewController")as? LeaguesDetailsViewController else {
             return
         }
         
         leaguesVC.title = leagueName
         
-        let leaguesPresenter = LeaguesDetailsPresenter(view: leaguesVC, selectedSport: sportType, leagueId: validLeagueId)
+        let leaguesPresenter = AppDelegate.container.makeLeaguesDetailsPresenter(
+                view: leaguesVC,
+                selectedSport: sportType,
+                leagueId: validLeagueId
+        )
+        
         leaguesVC.presenter = leaguesPresenter
         self.navigationController?.pushViewController(leaguesVC, animated: true)
     }

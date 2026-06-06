@@ -9,27 +9,33 @@
 import Foundation
 
 protocol LocalServicesProtocol {
-    static func saveFavorite(league: League , sportType: Sport)
-    static func fetchAllFavorites() -> [FavoriteLeague]
-    static func deleteFavorite(leagueKey: Int)
-    static func isFavorite(leagueKey: Int?) -> Bool
+    func saveFavorite(league: League , sportType: Sport)
+    func fetchAllFavorites() -> [FavoriteLeague]
+    func deleteFavorite(leagueKey: Int)
+    func isFavorite(leagueKey: Int?) -> Bool
 }
 
 class LocalServices: LocalServicesProtocol {
     
-    static func saveFavorite(league: League ,sportType: Sport) {
-        CoreDataManager.shared.saveFavoriteLeague(league: league, sportType: sportType)
+    private let databaseManager: CoreDataManagerProtocol
+        
+    init(databaseManager: CoreDataManagerProtocol = CoreDataManager.shared) {
+        self.databaseManager = databaseManager
     }
     
-    static func fetchAllFavorites() -> [FavoriteLeague] {
-        return CoreDataManager.shared.fetchAllFavorites()
+    func saveFavorite(league: League ,sportType: Sport) {
+        databaseManager.saveFavoriteLeague(league: league, sportType: sportType)
     }
     
-    static func deleteFavorite(leagueKey: Int) {
-        CoreDataManager.shared.deleteFavoriteLeague(leagueKey: leagueKey)
+    func fetchAllFavorites() -> [FavoriteLeague] {
+        return databaseManager.fetchAllFavorites()
     }
     
-    static func isFavorite(leagueKey: Int?) -> Bool {
-        return CoreDataManager.shared.isLeagueFavorite(leagueKey: leagueKey)
+    func deleteFavorite(leagueKey: Int) {
+        databaseManager.deleteFavoriteLeague(leagueKey: leagueKey)
+    }
+    
+    func isFavorite(leagueKey: Int?) -> Bool {
+        return databaseManager.isLeagueFavorite(leagueKey: leagueKey)
     }
 }

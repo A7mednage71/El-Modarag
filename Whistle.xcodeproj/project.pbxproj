@@ -12,8 +12,19 @@
 		2C7411512FCC889C007E1B60 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 2C7411502FCC889C007E1B60 /* Alamofire */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2C7844842FD394C8001F8568 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C17BF0E2FBBE10200AE5138 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C17BF152FBBE10200AE5138;
+			remoteInfo = Whistle;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		2C17BF162FBBE10200AE5138 /* Whistle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Whistle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C7844802FD394C8001F8568 /* WhistleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WhistleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -35,6 +46,11 @@
 			path = Whistle;
 			sourceTree = "<group>";
 		};
+		2C7844812FD394C8001F8568 /* WhistleTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WhistleTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +64,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C78447D2FD394C8001F8568 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -55,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				2C17BF182FBBE10200AE5138 /* Whistle */,
+				2C7844812FD394C8001F8568 /* WhistleTests */,
 				2C17BF172FBBE10200AE5138 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -63,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				2C17BF162FBBE10200AE5138 /* Whistle.app */,
+				2C7844802FD394C8001F8568 /* WhistleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -95,6 +120,29 @@
 			productReference = 2C17BF162FBBE10200AE5138 /* Whistle.app */;
 			productType = "com.apple.product-type.application";
 		};
+		2C78447F2FD394C8001F8568 /* WhistleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C7844882FD394C8001F8568 /* Build configuration list for PBXNativeTarget "WhistleTests" */;
+			buildPhases = (
+				2C78447C2FD394C8001F8568 /* Sources */,
+				2C78447D2FD394C8001F8568 /* Frameworks */,
+				2C78447E2FD394C8001F8568 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C7844852FD394C8001F8568 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2C7844812FD394C8001F8568 /* WhistleTests */,
+			);
+			name = WhistleTests;
+			packageProductDependencies = (
+			);
+			productName = WhistleTests;
+			productReference = 2C7844802FD394C8001F8568 /* WhistleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -107,6 +155,10 @@
 				TargetAttributes = {
 					2C17BF152FBBE10200AE5138 = {
 						CreatedOnToolsVersion = 16.4;
+					};
+					2C78447F2FD394C8001F8568 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 2C17BF152FBBE10200AE5138;
 					};
 				};
 			};
@@ -130,12 +182,20 @@
 			projectRoot = "";
 			targets = (
 				2C17BF152FBBE10200AE5138 /* Whistle */,
+				2C78447F2FD394C8001F8568 /* WhistleTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		2C17BF142FBBE10200AE5138 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C78447E2FD394C8001F8568 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -152,7 +212,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C78447C2FD394C8001F8568 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C7844852FD394C8001F8568 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C17BF152FBBE10200AE5138 /* Whistle */;
+			targetProxy = 2C7844842FD394C8001F8568 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		2C17BF2D2FBBE10500AE5138 /* Debug */ = {
@@ -340,6 +415,40 @@
 			};
 			name = Release;
 		};
+		2C7844862FD394C8001F8568 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nageh.WhistleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Whistle.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Whistle";
+			};
+			name = Debug;
+		};
+		2C7844872FD394C8001F8568 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nageh.WhistleTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Whistle.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Whistle";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -357,6 +466,15 @@
 			buildConfigurations = (
 				2C17BF2D2FBBE10500AE5138 /* Debug */,
 				2C17BF2E2FBBE10500AE5138 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C7844882FD394C8001F8568 /* Build configuration list for PBXNativeTarget "WhistleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C7844862FD394C8001F8568 /* Debug */,
+				2C7844872FD394C8001F8568 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -9,7 +9,14 @@ import Foundation
 import CoreData
 import UIKit
 
-class CoreDataManager {
+protocol CoreDataManagerProtocol {
+    func saveFavoriteLeague(league: League, sportType: Sport)
+    func fetchAllFavorites() -> [FavoriteLeague]
+    func deleteFavoriteLeague(leagueKey: Int)
+    func isLeagueFavorite(leagueKey: Int?) -> Bool
+}
+
+class CoreDataManager  : CoreDataManagerProtocol{
 
     static let shared = CoreDataManager()
     private init() {}

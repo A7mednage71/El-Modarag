@@ -17,6 +17,8 @@ protocol FavoritesPresenterProtocol: AnyObject {
 }
 
 class FavoritesPresenter: FavoritesPresenterProtocol {
+    
+    private let localService: LocalServicesProtocol
 
     private weak var view: FavoritesViewProtocol?
     private var favoritesList: [FavoriteLeague] = []
@@ -25,8 +27,9 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
         return favoritesList.count
     }
     
-    init(view: FavoritesViewProtocol) {
+    init(view: FavoritesViewProtocol , localService: LocalServicesProtocol) {
         self.view = view
+        self.localService = localService
     }
     
     func viewDidLoad() {
@@ -36,7 +39,7 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     private func loadFavoritesLeagues() {
         view?.showLoading()
         
-        favoritesList = LocalServices.fetchAllFavorites()
+        favoritesList = localService.fetchAllFavorites()
         
         self.view?.hideLoading()
         self.view?.reloadFavoritesData()
@@ -48,7 +51,7 @@ class FavoritesPresenter: FavoritesPresenterProtocol {
     
     func didRemoveFavorite(at index: Int) {
         let targetLeague = favoritesList[index]
-        LocalServices.deleteFavorite(leagueKey: targetLeague.leagueKey ?? 0)
+        localService.deleteFavorite(leagueKey: targetLeague.leagueKey ?? 0)
         favoritesList.remove(at: index)
     }
     

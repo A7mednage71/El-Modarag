@@ -304,12 +304,17 @@ extension LeaguesDetailsViewController : LeaguesDetailsViewProtocol{
             return
         }
         
-        guard let teamDetailsVC = self.storyboard?.instantiateViewController(withIdentifier:"TeamDetails")as? TeamDetailsViewController else {
+        guard let teamDetailsVC = self.storyboard?.instantiateViewController(withIdentifier:"TeamDetailsViewController")as? TeamDetailsViewController else {
             return
         }
         
-        teamDetailsVC.presenter =
-        TeamDetailsPresenter(view: teamDetailsVC,teamData: team,selectedSport: selectedSport)
+        let teamDetailsPresenter = AppDelegate.container.makeTeamDetailsPresenter(
+            view: teamDetailsVC,
+            teamData: team,
+            selectedSport: selectedSport
+        )
+
+        teamDetailsVC.presenter = teamDetailsPresenter
         
         self.navigationItem.backButtonTitle = ""
         self.navigationController?.pushViewController(teamDetailsVC, animated: true)

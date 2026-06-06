@@ -9,51 +9,56 @@ import Foundation
 import Alamofire
 
 protocol NetworkServicesProtocol {
-    static func getLeagueData(sport: Sport, completion: @escaping (Result<LeagueResponse, AFError>) -> Void)
+    func getLeagueData(sport: Sport, completion: @escaping (Result<LeagueResponse, AFError>) -> Void)
     
-    static func getLeagueFixturesData(request: LeagueFixturesRequest, completion: @escaping (Result<LeagueFixturesResponse, AFError>) -> Void)
+    func getLeagueFixturesData(request: LeagueFixturesRequest, completion: @escaping (Result<LeagueFixturesResponse, AFError>) -> Void)
     
-    static func getLeagueTeams(leagueId: Int, sport: Sport, completion: @escaping (Result<TeamResponse, AFError>) -> Void)
+    func getLeagueTeams(leagueId: Int, sport: Sport, completion: @escaping (Result<TeamResponse, AFError>) -> Void)
         
-    static func getPlayersData(teamId: Int, sport: Sport, completion: @escaping (Result<PlayerResponse, AFError>) -> Void)
+    func getPlayersData(teamId: Int, sport: Sport, completion: @escaping (Result<PlayerResponse, AFError>) -> Void)
 }
 
 class NetworkServices: NetworkServicesProtocol {
     
-    private init() {}
-    
-    static func getLeagueData(sport: Sport, completion: @escaping (Result<LeagueResponse, AFError>) -> Void) {
-        NetworkClient.fetchData(target: SportApiConfig.leagues(sport: sport), responseType: LeagueResponse.self, completion: completion)
+    private let client: NetworkClientProtocol
+        
+    init(client: NetworkClientProtocol) {
+        self.client = client
     }
     
-    static func getLeagueFixturesData(request: LeagueFixturesRequest, completion: @escaping (Result<LeagueFixturesResponse, AFError>) -> Void) {
+    
+    func getLeagueData(sport: Sport, completion: @escaping (Result<LeagueResponse, AFError>) -> Void) {
+        client.fetchData(target: SportApiConfig.leagues(sport: sport), responseType: LeagueResponse.self, completion: completion)
+    }
+    
+    func getLeagueFixturesData(request: LeagueFixturesRequest, completion: @escaping (Result<LeagueFixturesResponse, AFError>) -> Void) {
         
         switch request.sport {
            case .football:
-                NetworkClient.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: LeagueFixturesResponse.self) { completion($0) }
+                client.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: LeagueFixturesResponse.self) { completion($0) }
             
            case .basketball:
-                 NetworkClient.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: BasketballFixturesResponse.self) { result in
+                 client.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: BasketballFixturesResponse.self) { result in
+                   completion(result.map { $0.toLeagueFixturesResponse() })
+                  }
+            
+           case .tennis:
+                client.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: TennisFixturesResponse.self) { result in
                    completion(result.map { $0.toLeagueFixturesResponse() })
                  }
             
-           case .tennis:
-                NetworkClient.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: TennisFixturesResponse.self) { result in
+           case .cricket:
+                client.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: CricketFixturesResponse.self) { result in
                    completion(result.map { $0.toLeagueFixturesResponse() })
                 }
-            
-           case .cricket:
-                NetworkClient.fetchData(target: SportApiConfig.LeagueFixtures(request: request), responseType: CricketFixturesResponse.self) { result in
-                   completion(result.map { $0.toLeagueFixturesResponse() })
-               }
         }
     }
     
-    static func getLeagueTeams(leagueId: Int, sport: Sport, completion: @escaping (Result<TeamResponse, AFError>) -> Void) {
-            NetworkClient.fetchData(target: SportApiConfig.LeagueTeams(leagueId: leagueId, sport: sport), responseType: TeamResponse.self, completion: completion)
+    func getLeagueTeams(leagueId: Int, sport: Sport, completion: @escaping (Result<TeamResponse, AFError>) -> Void) {
+        client.fetchData(target: SportApiConfig.LeagueTeams(leagueId: leagueId, sport: sport), responseType: TeamResponse.self, completion: completion)
     }
         
-    static func getPlayersData(teamId: Int, sport: Sport, completion: @escaping (Result<PlayerResponse, AFError>) -> Void) {
-            NetworkClient.fetchData(target: SportApiConfig.players(teamId: teamId, sport: sport), responseType: PlayerResponse.self, completion: completion)
+    func getPlayersData(teamId: Int, sport: Sport, completion: @escaping (Result<PlayerResponse, AFError>) -> Void) {
+        client.fetchData(target: SportApiConfig.players(teamId: teamId, sport: sport), responseType: PlayerResponse.self, completion: completion)
     }
 }
